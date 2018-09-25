@@ -8,6 +8,7 @@ import {
   Platform,
   Dimensions
 } from 'react-native'
+import { gray } from '../utils/colors'
 import { Card } from 'react-native-elements'
 import { decks } from '../utils/mockData'
 
@@ -32,7 +33,6 @@ export default class DeckList extends Component {
   }
 
   render() {
-    console.log('teste')
     return (
       <View style={styles.container}>
         <FlatList
@@ -49,7 +49,7 @@ export default class DeckList extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ddd',
+    backgroundColor: gray,
   },
   empty: {
     margin: 0,
