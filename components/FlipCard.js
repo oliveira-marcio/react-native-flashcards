@@ -1,75 +1,53 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
   Animated
-} from 'react-native';
+} from 'react-native'
 
 export default class flipCard extends Component {
-  componentWillMount() {
-    this.animatedValue = new Animated.Value(0);
-    this.value = 0;
-    this.animatedValue.addListener(({ value }) => {
-      this.value = value;
-    })
-    this.frontInterpolate = this.animatedValue.interpolate({
-      inputRange: [0, 180],
-      outputRange: ['0deg', '180deg'],
-    })
-    this.backInterpolate = this.animatedValue.interpolate({
-      inputRange: [0, 180],
-      outputRange: ['180deg', '360deg']
-    })
-    this.frontOpacity = this.animatedValue.interpolate({
-      inputRange: [89, 90],
-      outputRange: [1, 0]
-    })
-    this.backOpacity = this.animatedValue.interpolate({
-      inputRange: [89, 90],
-      outputRange: [0, 1]
-    })
+  state = {
+    flipValue: new Animated.Value(0),
+    displayFront: true
   }
 
-  flipCard() {
-    if (this.value >= 90) {
-      Animated.spring(this.animatedValue,{
-        toValue: 0,
-        friction: 8,
-        tension: 10
-      }).start();
-    } else {
-      Animated.spring(this.animatedValue,{
-        toValue: 180,
-        friction: 8,
-        tension: 10
-      }).start();
-    }
-
+  flipCard = () => {
+    const {displayFront, flipValue} = this.state
+    Animated.spring(flipValue, {
+      toValue: displayFront ? 180 : 0,
+      friction: 8,
+      tension: 10
+    }).start();
+    this.setState({displayFront: !displayFront})
   }
+
+  setAnimatedStyle = (isFront) => ({
+    transform: [
+      {
+        rotateY: this.state.flipValue.interpolate({
+          inputRange: [0, 180],
+          outputRange: isFront ? ['0deg', '180deg'] : ['180deg', '360deg'],
+        })
+      }
+    ],
+    opacity: this.state.flipValue.interpolate({
+      inputRange: [89, 90],
+      outputRange: isFront ? [1, 0] : [0, 1]
+    })
+  })
 
   render() {
-    const frontAnimatedStyle = {
-      transform: [
-        { rotateY: this.frontInterpolate }
-      ]
-    }
-    const backAnimatedStyle = {
-      transform: [
-        { rotateY: this.backInterpolate }
-      ]
-    }
-
     return (
       <View style={styles.container}>
         <View>
-          <Animated.View style={[styles.flipCard, frontAnimatedStyle, {opacity: this.frontOpacity}]}>
+          <Animated.View style={[styles.flipCard, this.setAnimatedStyle(true)]}>
             <Text style={styles.flipText}>
               This text is flipping on the front.
             </Text>
           </Animated.View>
-          <Animated.View style={[styles.flipCard, styles.flipCardBack, backAnimatedStyle, {opacity: this.backOpacity}]}>
+          <Animated.View style={[styles.flipCard, styles.flipCardBack, this.setAnimatedStyle(false)]}>
             <Text style={styles.flipText}>
               This text is flipping on the back.
             </Text>
