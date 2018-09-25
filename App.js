@@ -1,14 +1,19 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import FlipCard from './components/FlipCard';
+import React, { Component } from 'react'
+import { StyleSheet, Text, View, StatusBar } from 'react-native'
+import DeckList from './components/DeckList'
+import { Constants } from 'expo'
 
-export default class App extends React.Component {
+
+export default class App extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <FlipCard />
+        <View style={{ height: Constants.statusBarHeight }}>
+          <StatusBar translucent barStyle="light-content" />
+        </View>
+        <DeckList />
       </View>
-    );
+    )
   }
 }
 
@@ -16,7 +21,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+  }
+})
