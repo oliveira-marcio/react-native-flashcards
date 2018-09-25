@@ -8,8 +8,8 @@ import {
   Platform,
   Dimensions
 } from 'react-native'
-import { gray } from '../utils/colors'
-import { Card } from 'react-native-elements'
+import { white, gray, purple } from '../utils/colors'
+import { Card, Icon } from 'react-native-elements'
 import { decks } from '../utils/mockData'
 
 export default class DeckList extends Component {
@@ -41,6 +41,15 @@ export default class DeckList extends Component {
           ListEmptyComponent={ this.renderEmptyComponent }
           keyExtractor={(item, index) => item.title}
         />
+        <Icon
+          containerStyle={styles.fab}
+          raised
+          name='file'
+          type='font-awesome'
+          underlayColor={purple}
+          color={white}
+          onPress={() => alert('Novo Baralho')}
+        />
       </View>
     )
   }
@@ -56,5 +65,14 @@ const styles = StyleSheet.create({
     height: Dimensions.get('window').height,
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  fab: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: purple,
+    position: 'absolute',
+    bottom: 10,
+    right: 10,
   }
 })
