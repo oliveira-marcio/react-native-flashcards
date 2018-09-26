@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, StatusBar, Platform } from 'react-native'
 import { createMaterialTopTabNavigator, createStackNavigator } from 'react-navigation'
+import { fromLeft, fromTop } from 'react-navigation-transitions'
 import { Constants } from 'expo'
 import { purple, white } from './utils/colors'
 import { APP_NAME, TAB_DECKS, TAB_LOG, ADD_DECK } from './utils/constants'
@@ -48,38 +49,44 @@ const Tabs = createMaterialTopTabNavigator({
   }
 })
 
-const MainNavigator = createStackNavigator({
-  Home: {
-    screen: Tabs,
-    navigationOptions: {
-      title: APP_NAME,
-      headerTintColor: white,
-      headerStyle: {
-        backgroundColor: purple,
-        elevation: 0
+const MainNavigator = createStackNavigator(
+  {
+    Tabs: {
+      screen: Tabs,
+      navigationOptions: {
+        title: APP_NAME,
+        headerTintColor: white,
+        headerStyle: {
+          backgroundColor: purple,
+          elevation: 0
+        }
+      }
+    },
+    Deck: {
+      screen: Deck,
+      navigationOptions: {
+        headerTintColor: white,
+        headerStyle: {
+          backgroundColor: purple,
+        }
+      }
+    },
+    AddDeck: {
+      screen: AddDeck,
+      navigationOptions: {
+        title: ADD_DECK,
+        headerTintColor: white,
+        headerStyle: {
+          backgroundColor: purple,
+        }
       }
     }
   },
-  Deck: {
-    screen: Deck,
-    navigationOptions: {
-      headerTintColor: white,
-      headerStyle: {
-        backgroundColor: purple,
-      }
-    }
-  },
-  AddDeck: {
-    screen: AddDeck,
-    navigationOptions: {
-      title: ADD_DECK,
-      headerTintColor: white,
-      headerStyle: {
-        backgroundColor: purple,
-      }
-    }
+  {
+    initialRouteName: 'Tabs',
+    transitionConfig: ({scene}) => (scene.index ? fromTop(500) : fromLeft(500)),
   }
-})
+)
 
 
 export default class App extends Component {
