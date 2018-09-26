@@ -4,7 +4,7 @@ import { createMaterialTopTabNavigator, createStackNavigator } from 'react-navig
 import { fromLeft, fromTop } from 'react-navigation-transitions'
 import { Constants } from 'expo'
 import { purple, white } from './utils/colors'
-import { APP_NAME, TAB_DECKS, TAB_LOG, ADD_DECK } from './utils/constants'
+import { APP_NAME, TAB_DECKS, TAB_LOG, ADD_DECK_TITLE } from './utils/constants'
 import DeckList from './components/DeckList'
 import History from './components/History'
 import Deck from './components/Deck'
@@ -74,7 +74,7 @@ const MainNavigator = createStackNavigator(
     AddDeck: {
       screen: AddDeck,
       navigationOptions: {
-        title: ADD_DECK,
+        title: ADD_DECK_TITLE,
         headerTintColor: white,
         headerStyle: {
           backgroundColor: purple,
