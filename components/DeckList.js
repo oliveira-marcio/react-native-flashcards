@@ -11,13 +11,16 @@ import {
 import { white, gray, purple } from '../utils/colors'
 import { Card, Icon } from 'react-native-elements'
 import { decks } from '../utils/mockData'
+import { CARD } from '../utils/constants'
+import { plural } from '../utils/helpers'
 
 export default class DeckList extends Component {
   renderItem = ({ item }) => {
     return (
-      <TouchableOpacity onPress={() => alert(`${item.title}\nCartas: ${item.questions.length}`)} >
+      <TouchableOpacity onPress={() => this.props.navigation.navigate('Deck', {...item })} >
         <Card containerStyle={{margin: 0}} >
           <Text>{item.title}</Text>
+          <Text>{plural(item.questions.length, CARD)}</Text>
         </Card>
       </TouchableOpacity>
     )
@@ -48,7 +51,7 @@ export default class DeckList extends Component {
           type='font-awesome'
           underlayColor={purple}
           color={white}
-          onPress={() => alert('Novo Baralho')}
+          onPress={() => this.props.navigation.navigate('AddDeck')}
         />
       </View>
     )

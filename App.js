@@ -3,8 +3,11 @@ import { StyleSheet, Text, View, StatusBar, Platform } from 'react-native'
 import { createMaterialTopTabNavigator, createStackNavigator } from 'react-navigation'
 import { Constants } from 'expo'
 import { purple, white } from './utils/colors'
+import { APP_NAME, TAB_DECKS, TAB_LOG, ADD_DECK } from './utils/constants'
 import DeckList from './components/DeckList'
 import History from './components/History'
+import Deck from './components/Deck'
+import AddDeck from './components/AddDeck'
 
 const AppStatusBar = ({backgroundColor, ...props}) => (
   <View style={{ backgroundColor, height: Constants.statusBarHeight }}>
@@ -16,13 +19,13 @@ const Tabs = createMaterialTopTabNavigator({
   DeckList: {
     screen: DeckList,
     navigationOptions: {
-      tabBarLabel: 'Baralhos',
+      tabBarLabel: TAB_DECKS,
     },
   },
   History: {
     screen: History,
     navigationOptions: {
-      tabBarLabel: 'Log',
+      tabBarLabel: TAB_LOG,
     },
   }
 }, {
@@ -45,12 +48,46 @@ const Tabs = createMaterialTopTabNavigator({
   }
 })
 
+const MainNavigator = createStackNavigator({
+  Home: {
+    screen: Tabs,
+    navigationOptions: {
+      title: APP_NAME,
+      headerTintColor: white,
+      headerStyle: {
+        backgroundColor: purple,
+        elevation: 0
+      }
+    }
+  },
+  Deck: {
+    screen: Deck,
+    navigationOptions: {
+      headerTintColor: white,
+      headerStyle: {
+        backgroundColor: purple,
+      }
+    }
+  },
+  AddDeck: {
+    screen: AddDeck,
+    navigationOptions: {
+      title: ADD_DECK,
+      headerTintColor: white,
+      headerStyle: {
+        backgroundColor: purple,
+      }
+    }
+  }
+})
+
+
 export default class App extends Component {
   render() {
     return (
       <View style={styles.container}>
         <AppStatusBar backgroundColor={purple} barStyle="light-content" />
-        <Tabs />
+        <MainNavigator />
       </View>
     )
   }
