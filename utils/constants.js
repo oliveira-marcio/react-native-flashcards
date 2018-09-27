@@ -1,5 +1,8 @@
 export const APP_NAME = 'FlashCards'
 
+export const STORAGE_DECKS_KEY = 'decks'
+export const STORAGE_LOG_KEY = 'log'
+
 export const TAB_DECKS = 'Baralhos'
 export const TAB_LOG = 'Registro'
 

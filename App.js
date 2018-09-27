@@ -59,6 +59,9 @@ const MainNavigator = createStackNavigator(
         headerStyle: {
           backgroundColor: purple,
           elevation: 0
+        },
+        headerTitleStyle:{
+          textAlign:'center', alignSelf:'center',flex:1
         }
       }
     },

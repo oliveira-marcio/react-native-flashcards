@@ -8,13 +8,19 @@ import {
   Platform,
   Dimensions
 } from 'react-native'
+import { NavigationEvents, NavigationActions } from 'react-navigation'
 import { white, gray, purple } from '../utils/colors'
 import { Card, Icon } from 'react-native-elements'
-import { decks } from '../utils/mockData'
 import { CARD } from '../utils/constants'
 import { plural } from '../utils/helpers'
+import { getDecks } from '../utils/api'
 
 export default class DeckList extends Component {
+  state = {
+    ready: false,
+    decks: {}
+  }
+
   renderItem = ({ item }) => {
     return (
       <TouchableOpacity onPress={() => this.props.navigation.navigate('Deck', {...item })} >
@@ -35,11 +41,43 @@ export default class DeckList extends Component {
     )
   }
 
+// Não funciona direito. O parametro SAVED continua existindo
+  clearParams = () => {
+    this.props.navigation.dispatch(
+        NavigationActions.init({
+        params: {},
+        key: 'DeckList',
+      })
+    )
+    console.log(this.props.navigation.state)
+  }
+
+  handleAddedDeck = (params) => {
+    if(params && params.hasOwnProperty('saved')){
+      console.log(params)
+      this.setState({ ready: false })
+      getDecks().then(decks => this.setState({ decks, ready: true }))
+    }
+  }
+
+  componentDidMount(){
+    getDecks().then(decks => this.setState({ decks, ready: true }))
+  }
+
   render() {
+    const { ready, decks } = this.state
+    if (!ready) {
+      return <Icon containerStyle={styles.container} name='spinner' type='font-awesome' />
+    }
+
     return (
       <View style={styles.container}>
+        <NavigationEvents
+          onWillFocus={payload => this.handleAddedDeck(payload.state.params)}
+          onWillBlur={this.clearParams}
+        />
         <FlatList
-          data={ /*[] */ Object.values(decks) }
+          data={ /* [] */ Object.values(decks) }
           renderItem={ this.renderItem }
           ListEmptyComponent={ this.renderEmptyComponent }
           keyExtractor={(item, index) => item.title}
