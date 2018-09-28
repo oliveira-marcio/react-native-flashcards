@@ -2,6 +2,10 @@ import React, { Component } from 'react'
 import { StyleSheet, Text, View, StatusBar, Platform } from 'react-native'
 import { createMaterialTopTabNavigator, createStackNavigator } from 'react-navigation'
 import { fromLeft, fromTop } from 'react-navigation-transitions'
+import { createStore, applyMiddleware } from 'redux'
+import thunk from 'redux-thunk';
+import reducer from './reducers'
+import { Provider } from 'react-redux'
 import { Constants } from 'expo'
 import { purple, white } from './utils/colors'
 import { APP_NAME, TAB_DECKS, TAB_LOG, ADD_DECK_TITLE } from './utils/constants'
@@ -95,10 +99,12 @@ const MainNavigator = createStackNavigator(
 export default class App extends Component {
   render() {
     return (
-      <View style={styles.container}>
-        <AppStatusBar backgroundColor={purple} barStyle="light-content" />
-        <MainNavigator />
-      </View>
+      <Provider store={createStore(reducer)}>
+        <View style={styles.container}>
+          <AppStatusBar backgroundColor={purple} barStyle="light-content" />
+          <MainNavigator />
+        </View>
+      </Provider>
     )
   }
 }

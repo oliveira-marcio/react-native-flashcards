@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import {
   View,
   FlatList,
@@ -8,19 +9,14 @@ import {
   Platform,
   Dimensions
 } from 'react-native'
-import { NavigationEvents, NavigationActions } from 'react-navigation'
+import { NavigationActions } from 'react-navigation'
 import { white, gray, purple } from '../utils/colors'
 import { Card, Icon } from 'react-native-elements'
 import { CARD } from '../utils/constants'
 import { plural } from '../utils/helpers'
 import { getDecks } from '../utils/api'
 
-export default class DeckList extends Component {
-  state = {
-    ready: false,
-    decks: {}
-  }
-
+class DeckList extends Component {
   renderItem = ({ item }) => {
     return (
       <TouchableOpacity onPress={() => this.props.navigation.navigate('Deck', {...item })} >
@@ -41,41 +37,21 @@ export default class DeckList extends Component {
     )
   }
 
-// Não funciona direito. O parametro SAVED continua existindo
-  clearParams = () => {
-    this.props.navigation.dispatch(
-        NavigationActions.init({
-        params: {},
-        key: 'DeckList',
-      })
-    )
-    console.log(this.props.navigation.state)
-  }
-
-  handleAddedDeck = (params) => {
-    if(params && params.hasOwnProperty('saved')){
-      console.log(params)
-      this.setState({ ready: false })
-      getDecks().then(decks => this.setState({ decks, ready: true }))
-    }
-  }
-
   componentDidMount(){
-    getDecks().then(decks => this.setState({ decks, ready: true }))
+    // TODO; Chamar action/middleware para popular Store
+//    getDecks().then(decks => this.setState({ decks, ready: true }))
   }
 
   render() {
-    const { ready, decks } = this.state
-    if (!ready) {
+    const { decks } = this.props
+    console.log()
+
+    if (!(decks && Object.keys(decks).length)) {
       return <Icon containerStyle={styles.container} name='spinner' type='font-awesome' />
     }
 
     return (
       <View style={styles.container}>
-        <NavigationEvents
-          onWillFocus={payload => this.handleAddedDeck(payload.state.params)}
-          onWillBlur={this.clearParams}
-        />
         <FlatList
           data={ /* [] */ Object.values(decks) }
           renderItem={ this.renderItem }
@@ -101,7 +77,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: gray,
   },
-  empty: {
+  empty: { // TODO: Verificar porque está com scroll
     margin: 0,
     height: Dimensions.get('window').height,
     alignItems: 'center',
@@ -117,3 +93,6 @@ const styles = StyleSheet.create({
     right: 10,
   }
 })
+
+const mapStateToProps = decks => decks
+export default connect(mapStateToProps)(DeckList)

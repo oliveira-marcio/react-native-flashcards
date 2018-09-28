@@ -23,13 +23,8 @@ export default class AddDeck extends Component {
     if(deckName.length){
       const key = deckName
       const entry = { title: deckName, questions: [] }
-      saveDeckTitle({ key, entry })
-      this.props.navigation.dispatch(
-          NavigationActions.setParams({
-          params: { saved: 'OK' },
-          key: 'DeckList',
-        })
-      )
+      // TODO: Invocar action para atualizar a Store
+//      saveDeckTitle({ key, entry })
       this.props.navigation.dispatch(NavigationActions.back())
     } else {
       this.setState({ isInvalid: true })

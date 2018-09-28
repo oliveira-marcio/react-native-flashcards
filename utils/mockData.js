@@ -1,4 +1,4 @@
-export const decks = {
+export const mockDecks = {
   React: {
     title: 'React',
     questions: [
@@ -23,7 +23,7 @@ export const decks = {
   }
 }
 
-export const history = {
+export const mockHistory = {
   '2018-09-25': {
     date: '2018-09-25',
     deck: 'React',
