@@ -99,7 +99,7 @@ const MainNavigator = createStackNavigator(
 export default class App extends Component {
   render() {
     return (
-      <Provider store={createStore(reducer)}>
+      <Provider store={createStore(reducer, applyMiddleware(thunk))}>
         <View style={styles.container}>
           <AppStatusBar backgroundColor={purple} barStyle="light-content" />
           <MainNavigator />

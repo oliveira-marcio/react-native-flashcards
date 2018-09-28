@@ -14,7 +14,8 @@ import { white, gray, purple } from '../utils/colors'
 import { Card, Icon } from 'react-native-elements'
 import { CARD } from '../utils/constants'
 import { plural } from '../utils/helpers'
-import { getDecks } from '../utils/api'
+import { fetchDecks } from '../actions'
+
 
 class DeckList extends Component {
   renderItem = ({ item }) => {
@@ -38,22 +39,22 @@ class DeckList extends Component {
   }
 
   componentDidMount(){
-    // TODO; Chamar action/middleware para popular Store
-//    getDecks().then(decks => this.setState({ decks, ready: true }))
+    // Comente abaixo para simular lista vazia
+    this.props.fetchDecks()
   }
 
   render() {
-    const { decks } = this.props
-    console.log()
+    const { decks, decksAreLoading } = this.props
 
-    if (!(decks && Object.keys(decks).length)) {
+    if (decksAreLoading) {
       return <Icon containerStyle={styles.container} name='spinner' type='font-awesome' />
     }
 
     return (
       <View style={styles.container}>
         <FlatList
-          data={ /* [] */ Object.values(decks) }
+          data={ Object.values(decks) }
+          contentContainerStyle={[{ flexGrow: 1 } , Object.values(decks).length ? null : { justifyContent: 'center'} ]}
           renderItem={ this.renderItem }
           ListEmptyComponent={ this.renderEmptyComponent }
           keyExtractor={(item, index) => item.title}
@@ -77,9 +78,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: gray,
   },
-  empty: { // TODO: Verificar porque está com scroll
+  empty: { // TODO: Melhorar layout
     margin: 0,
-    height: Dimensions.get('window').height,
     alignItems: 'center',
     justifyContent: 'center'
   },
@@ -94,5 +94,9 @@ const styles = StyleSheet.create({
   }
 })
 
-const mapStateToProps = decks => decks
-export default connect(mapStateToProps)(DeckList)
+const mapStateToProps = ({decks, decksAreLoading}) => ({decks, decksAreLoading})
+const mapDispatchToProps = dispatch => (
+  { fetchDecks: () => dispatch(fetchDecks()) }
+)
+
+export default connect(mapStateToProps, mapDispatchToProps)(DeckList)

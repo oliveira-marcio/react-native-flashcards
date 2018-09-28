@@ -1,10 +1,20 @@
 import { combineReducers } from 'redux'
-import { RECEIVE_ENTRIES, ADD_DECK_ENTRY } from '../actions'
-import { mockDecks, mockHistory } from '../utils/mockData'
+import {
+  RECEIVE_DECKS_ENTRIES,
+  RECEIVE_LOGS_ENTRIES,
+  ADD_DECK_ENTRY,
+  ADD_LOG_ENTRY,
+  REMOVE_DECK_ENTRY,
+  REMOVE_LOG_ENTRY,
+  DECKS_ARE_LOADING,
+  LOGS_ARE_LOADING
+} from '../actions'
 
-function decks (state = mockDecks, action) {
+import { mockDecks, mockLog } from '../utils/mockData'
+
+function decks (state = {}, action) {
   switch (action.type) {
-    case RECEIVE_ENTRIES :
+    case RECEIVE_DECKS_ENTRIES :
       return {
         ...state,
         ...action.entries,
@@ -19,14 +29,23 @@ function decks (state = mockDecks, action) {
   }
 }
 
-function history (state = mockHistory, action) {
+function decksAreLoading (state = false, action) {
   switch (action.type) {
-    case RECEIVE_ENTRIES :
+    case DECKS_ARE_LOADING :
+      return action.isLoading
+    default :
+      return state
+  }
+}
+
+function log (state = mockLog, action) {
+  switch (action.type) {
+    case RECEIVE_LOGS_ENTRIES :
       return {
         ...state,
         ...action.entries,
       }
-    case ADD_DECK_ENTRY :
+    case ADD_LOG_ENTRY :
       return {
         ...state,
         ...action.entry
@@ -36,4 +55,13 @@ function history (state = mockHistory, action) {
   }
 }
 
-export default combineReducers({ decks, history })
+function logsAreLoading (state = false, action) {
+  switch (action.type) {
+    case LOGS_ARE_LOADING :
+      return action.isLoading
+    default :
+      return state
+  }
+}
+
+export default combineReducers({ decks, log, decksAreLoading, logsAreLoading })

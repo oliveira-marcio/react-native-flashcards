@@ -23,7 +23,7 @@ export const mockDecks = {
   }
 }
 
-export const mockHistory = {
+export const mockLog = {
   '2018-09-25': {
     date: '2018-09-25',
     deck: 'React',
