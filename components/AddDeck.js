@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { NavigationActions } from 'react-navigation'
+import { connect } from 'react-redux'
 import {
   FormLabel,
   FormInput,
@@ -10,8 +11,9 @@ import {
 import { white, purple } from '../utils/colors'
 import { ADD_DECK_LABEL, ADD_DECK_ERROR, ADD_DECK_BUTTON } from '../utils/constants'
 import { saveDeckTitle } from '../utils/api'
+import { addDeckEntry } from '../actions'
 
-export default class AddDeck extends Component {
+class AddDeck extends Component {
   state={
     isInvalid: false,
     deckName: ''
@@ -23,13 +25,17 @@ export default class AddDeck extends Component {
     if(deckName.length){
       const key = deckName
       const entry = { title: deckName, questions: [] }
-      // TODO: Invocar action para atualizar a Store
+      this.addDeckEntry(key, entry)
 //      saveDeckTitle({ key, entry })
       this.props.navigation.dispatch(NavigationActions.back())
     } else {
       this.setState({ isInvalid: true })
     }
   }
+
+  addDeckEntry = (key, entry) => this.props.addDeckEntry({
+      [key]: entry
+    })
 
   render() {
     const { isInvalid, deckName } = this.state
@@ -60,3 +66,9 @@ const styles = StyleSheet.create({
     backgroundColor: white,
   }
 })
+
+const mapDispatchToProps = dispatch => (
+  { addDeckEntry: (entry) => dispatch(addDeckEntry(entry)) }
+)
+
+export default connect(null, mapDispatchToProps)(AddDeck)
