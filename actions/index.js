@@ -24,6 +24,14 @@ export function fetchDecks() {
   }
 }
 
+export function addDeck(key) {
+  return (dispatch) => {
+    const entry = { title: key, questions: [] }
+    dispatch(addDeckEntry({ [key]: entry }))
+    return API.saveDeckTitle(key, entry)
+  }
+}
+
 export function decksAreLoading (isLoading) {
   return {
     type: DECKS_ARE_LOADING,
@@ -38,14 +46,6 @@ export function logsAreLoading (isLoading) {
   }
 }
 
-export function addDeckEntry (entry) {
-  return {
-    type: ADD_DECK_ENTRY,
-    entry,
-  }
-}
-
-
 export function receiveDecksEntries (entries) {
   return {
     type: RECEIVE_DECKS_ENTRIES,
@@ -53,9 +53,37 @@ export function receiveDecksEntries (entries) {
   }
 }
 
-export function addDeck (deck) {
+export function receiveLogsEntries (entries) {
+  return {
+    type: RECEIVE_LOGS_ENTRIES,
+    entries,
+  }
+}
+
+export function addDeckEntry (entry) {
   return {
     type: ADD_DECK_ENTRY,
-    deck,
+    entry,
+  }
+}
+
+export function addLogEntry (entry) {
+  return {
+    type: ADD_LOG_ENTRY,
+    entry,
+  }
+}
+
+export function removeDeckEntry (key) {
+  return {
+    type: REMOVE_DECK_ENTRY,
+    key,
+  }
+}
+
+export function removeLogEntry (key) {
+  return {
+    type: REMOVE_LOG_ENTRY,
+    key,
   }
 }

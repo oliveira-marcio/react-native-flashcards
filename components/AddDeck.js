@@ -11,7 +11,7 @@ import {
 import { white, purple } from '../utils/colors'
 import { ADD_DECK_LABEL, ADD_DECK_ERROR, ADD_DECK_BUTTON } from '../utils/constants'
 import { saveDeckTitle } from '../utils/api'
-import { addDeckEntry } from '../actions'
+import { addDeck } from '../actions'
 
 class AddDeck extends Component {
   state={
@@ -22,20 +22,15 @@ class AddDeck extends Component {
   setDeckName = (deckName) => this.setState({ deckName, isInvalid: false })
   handleButtonClick = () => {
     const { isInvalid, deckName } = this.state
+    const { navigation, addDeck } = this.props
+
     if(deckName.length){
-      const key = deckName
-      const entry = { title: deckName, questions: [] }
-      this.addDeckEntry(key, entry)
-//      saveDeckTitle({ key, entry })
-      this.props.navigation.dispatch(NavigationActions.back())
+      addDeck(deckName)
+      navigation.dispatch(NavigationActions.back())
     } else {
       this.setState({ isInvalid: true })
     }
   }
-
-  addDeckEntry = (key, entry) => this.props.addDeckEntry({
-      [key]: entry
-    })
 
   render() {
     const { isInvalid, deckName } = this.state
@@ -68,7 +63,7 @@ const styles = StyleSheet.create({
 })
 
 const mapDispatchToProps = dispatch => (
-  { addDeckEntry: (entry) => dispatch(addDeckEntry(entry)) }
+  { addDeck: (data) => dispatch(addDeck(data)) }
 )
 
 export default connect(null, mapDispatchToProps)(AddDeck)
