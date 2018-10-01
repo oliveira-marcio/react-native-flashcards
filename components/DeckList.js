@@ -20,6 +20,7 @@ import { fetchDecks } from '../actions'
 class DeckList extends Component {
   renderItem = ({ item }) => {
     return (
+      // TODO: Avaliar colocar carta selecionada na Store em vez de passar por navigation
       <TouchableOpacity onPress={() => this.props.navigation.navigate('Deck', {...item })} >
         <Card containerStyle={{margin: 0}} >
           <Text>{item.title}</Text>

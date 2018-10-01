@@ -3,6 +3,7 @@ import * as API from '../utils/api'
 export const RECEIVE_DECKS_ENTRIES = 'RECEIVE_DECKS_ENTRIES'
 export const RECEIVE_LOGS_ENTRIES = 'RECEIVE_LOGS_ENTRIES'
 export const ADD_DECK_ENTRY = 'ADD_DECK_ENTRY'
+export const ADD_CARD_ENTRY = 'ADD_CARD_ENTRY'
 export const ADD_LOG_ENTRY = 'ADD_DECK_ENTRY'
 export const REMOVE_DECK_ENTRY = 'REMOVE_DECK_ENTRY'
 export const REMOVE_LOG_ENTRY = 'REMOVE_LOG_ENTRY'
@@ -39,6 +40,13 @@ export function removeDeck(key) {
   }
 }
 
+export function addCard(key, question) {
+  return (dispatch) => {
+    dispatch(addCardEntry(key, question))
+    return API.addCardToDeck(key, question)
+  }
+}
+
 export function decksAreLoading (isLoading) {
   return {
     type: DECKS_ARE_LOADING,
@@ -71,6 +79,14 @@ export function addDeckEntry (entry) {
   return {
     type: ADD_DECK_ENTRY,
     entry,
+  }
+}
+
+export function addCardEntry (key, question) {
+  return {
+    type: ADD_CARD_ENTRY,
+    key,
+    question
   }
 }
 

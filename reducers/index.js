@@ -3,6 +3,7 @@ import {
   RECEIVE_DECKS_ENTRIES,
   RECEIVE_LOGS_ENTRIES,
   ADD_DECK_ENTRY,
+  ADD_CARD_ENTRY,
   ADD_LOG_ENTRY,
   REMOVE_DECK_ENTRY,
   REMOVE_LOG_ENTRY,
@@ -19,16 +20,28 @@ function decks (state = {}, action) {
         ...state,
         ...action.entries,
       }
+
     case ADD_DECK_ENTRY :
       return {
         ...state,
         ...action.entry
       }
+
     case REMOVE_DECK_ENTRY :
       const updatedState = {...state}
       updatedState[action.key] = undefined
       delete updatedState[action.key]
       return updatedState
+
+    case ADD_CARD_ENTRY :
+      return {
+        ...state,
+        [action.key]: {
+          ...state[action.key],
+          questions: [...state[action.key].questions, action.question]
+        }
+      }
+
     default :
       return state
   }

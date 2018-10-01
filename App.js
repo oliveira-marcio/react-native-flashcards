@@ -8,11 +8,18 @@ import reducer from './reducers'
 import { Provider } from 'react-redux'
 import { Constants } from 'expo'
 import { purple, white } from './utils/colors'
-import { APP_NAME, TAB_DECKS, TAB_LOG, ADD_DECK_TITLE } from './utils/constants'
+import {
+  APP_NAME,
+  TAB_DECKS,
+  TAB_LOG,
+  ADD_DECK_TITLE,
+  ADD_CARD_TITLE
+} from './utils/constants'
 import DeckList from './components/DeckList'
 import History from './components/History'
 import Deck from './components/Deck'
 import AddDeck from './components/AddDeck'
+import AddCard from './components/AddCard'
 
 const AppStatusBar = ({backgroundColor, ...props}) => (
   <View style={{ backgroundColor, height: Constants.statusBarHeight }}>
@@ -82,6 +89,16 @@ const MainNavigator = createStackNavigator(
       screen: AddDeck,
       navigationOptions: {
         title: ADD_DECK_TITLE,
+        headerTintColor: white,
+        headerStyle: {
+          backgroundColor: purple,
+        }
+      }
+    },
+    AddCard: {
+      screen: AddCard,
+      navigationOptions: {
+        title: ADD_CARD_TITLE,
         headerTintColor: white,
         headerStyle: {
           backgroundColor: purple,

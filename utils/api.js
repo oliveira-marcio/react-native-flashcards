@@ -23,6 +23,11 @@ export function removeDeckTitle (key) {
     })
 }
 
+export function addCardToDeck(key, entry){
+  console.log(key)
+  console.log(entry)
+}
+
 /*
 export function fetchCalendarResults () {
   return AsyncStorage.getItem(CALENDAR_STORAGE_KEY)

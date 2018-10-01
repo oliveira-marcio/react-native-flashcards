@@ -23,6 +23,12 @@ class Deck extends Component {
     return { title }
   }
 
+  handleAddButtonClick = () => {
+    const { navigation } = this.props
+    const { title } = navigation.state.params
+    navigation.navigate('AddCard', { title })
+  }
+
   handleDeleteButtonClick = () => {
     const { navigation, removeDeck } = this.props
     const { title } = navigation.state.params
@@ -40,7 +46,10 @@ class Deck extends Component {
   }
 
   render() {
-    const { title, questions } = this.props.navigation.state.params
+    const { decks, navigation } = this.props
+    const { title } = navigation.state.params
+    const { questions } = decks[title]
+
     return (
       <View style={styles.container}>
         <Icon
@@ -61,7 +70,7 @@ class Deck extends Component {
           backgroundColor={white}
           containerViewStyle={{marginTop: 50, width: 200, alignSelf: 'center'}}
           title={DECK_ADD_CARD_BUTTON}
-          onPress={ () => null }
+          onPress={this.handleAddButtonClick}
         />
         <Button
           raised
@@ -69,7 +78,7 @@ class Deck extends Component {
           backgroundColor={purple}
           containerViewStyle={{marginTop: 20, width: 200, alignSelf: 'center'}}
           title={DECK_QUIZ_BUTTON}
-          onPress={ () => null }
+          onPress={ () => alert('Quiz não implementado... :-(') }
         />
       </View>
     )
@@ -83,8 +92,10 @@ const styles = StyleSheet.create({
   }
 })
 
+const mapStateToProps = decks => decks
+
 const mapDispatchToProps = dispatch => (
   { removeDeck: (data) => dispatch(removeDeck(data)) }
 )
 
-export default connect(null, mapDispatchToProps)(Deck)
+export default connect(mapStateToProps, mapDispatchToProps)(Deck)

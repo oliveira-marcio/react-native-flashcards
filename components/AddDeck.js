@@ -10,7 +10,6 @@ import {
 } from 'react-native-elements'
 import { white, purple } from '../utils/colors'
 import { ADD_DECK_LABEL, ADD_DECK_ERROR, ADD_DECK_BUTTON } from '../utils/constants'
-import { saveDeckTitle } from '../utils/api'
 import { addDeck } from '../actions'
 
 class AddDeck extends Component {
@@ -33,7 +32,7 @@ class AddDeck extends Component {
   }
 
   render() {
-    const { isInvalid, deckName } = this.state
+    const { isInvalid } = this.state
     return (
       <View style={styles.container}>
         <FormLabel>{ADD_DECK_LABEL}</FormLabel>
