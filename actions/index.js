@@ -32,6 +32,13 @@ export function addDeck(key) {
   }
 }
 
+export function removeDeck(key) {
+  return (dispatch) => {
+    dispatch(removeDeckEntry(key))
+    return API.removeDeckTitle(key)
+  }
+}
+
 export function decksAreLoading (isLoading) {
   return {
     type: DECKS_ARE_LOADING,

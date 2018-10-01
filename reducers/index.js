@@ -24,6 +24,11 @@ function decks (state = {}, action) {
         ...state,
         ...action.entry
       }
+    case REMOVE_DECK_ENTRY :
+      const updatedState = {...state}
+      updatedState[action.key] = undefined
+      delete updatedState[action.key]
+      return updatedState
     default :
       return state
   }
