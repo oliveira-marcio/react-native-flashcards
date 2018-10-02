@@ -24,8 +24,12 @@ export function removeDeckTitle (key) {
 }
 
 export function addCardToDeck(key, entry){
-  console.log(key)
-  console.log(entry)
+  return AsyncStorage.getItem(STORAGE_DECKS_KEY)
+    .then((results) => {
+      const data = JSON.parse(results)
+      data[key].questions.push(entry)
+      AsyncStorage.setItem(STORAGE_DECKS_KEY, JSON.stringify(data))
+    })
 }
 
 /*

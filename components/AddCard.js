@@ -54,7 +54,6 @@ class AddCard extends Component {
     const { isQuestionInvalid, isAnswerInvalid } = this.state
     return (
       <View style={styles.container}>
-        <Text>{JSON.stringify(this.props.decks)}</Text>
         <FormLabel>{ADD_CARD_QUESTION}</FormLabel>
         <FormInput onChangeText={this.setQuestion}/>
         {isQuestionInvalid && (
