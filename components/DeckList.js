@@ -9,19 +9,23 @@ import {
   Platform,
   Dimensions
 } from 'react-native'
-import { NavigationActions } from 'react-navigation'
 import { white, gray, purple } from '../utils/colors'
 import { Card, Icon } from 'react-native-elements'
 import { CARD } from '../utils/constants'
 import { plural } from '../utils/helpers'
-import { fetchDecks } from '../actions'
+import { fetchDecks, selectDeck } from '../actions'
 
 
 class DeckList extends Component {
+  handleItemClick = (key) => {
+    const { navigation, selectDeck } = this.props
+    selectDeck(key)
+    navigation.navigate('Deck')
+  }
+
   renderItem = ({ item }) => {
     return (
-      // TODO: Avaliar colocar carta selecionada na Store em vez de passar por navigation
-      <TouchableOpacity onPress={() => this.props.navigation.navigate('Deck', {...item })} >
+      <TouchableOpacity onPress={() => this.handleItemClick(item.title)} >
         <Card containerStyle={{margin: 0}} >
           <Text>{item.title}</Text>
           <Text>{plural(item.questions.length, CARD)}</Text>
@@ -97,7 +101,10 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = ({decks, decksAreLoading}) => ({decks, decksAreLoading})
 const mapDispatchToProps = dispatch => (
-  { fetchDecks: () => dispatch(fetchDecks()) }
+  {
+    fetchDecks: () => dispatch(fetchDecks()),
+    selectDeck: (data) => dispatch(selectDeck(data))
+  }
 )
 
 export default connect(mapStateToProps, mapDispatchToProps)(DeckList)

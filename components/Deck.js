@@ -18,37 +18,32 @@ import {
 } from '../utils/constants'
 
 class Deck extends Component {
-  static navigationOptions = ({ navigation }) => {
-    const { title } = navigation.state.params
-    return { title }
-  }
-
   handleAddButtonClick = () => {
     const { navigation } = this.props
-    const { title } = navigation.state.params
-    navigation.navigate('AddCard', { title })
+    navigation.navigate('AddCard')
   }
 
   handleDeleteButtonClick = () => {
-    const { navigation, removeDeck } = this.props
-    const { title } = navigation.state.params
+    const { navigation, removeDeck, selectedDeck } = this.props
     Alert.alert(
       DIALOG_DELETE_CARD_TITLE,
-      DIALOG_DELETE_CARD_MESSAGE1 + title + DIALOG_DELETE_CARD_MESSAGE2,
+      DIALOG_DELETE_CARD_MESSAGE1 + selectedDeck + DIALOG_DELETE_CARD_MESSAGE2,
       [
         {text: DIALOG_DELETE_CARD_CANCEL, style: 'cancel'},
         {text: DIALOG_DELETE_CARD_OK, onPress: () => {
-          removeDeck(title)
+          removeDeck(selectedDeck)
           navigation.dispatch(NavigationActions.back())
         }},
       ],
     )
   }
 
+  shouldComponentUpdate = (nextProps, nextState) => this.props.selectedDeck &&
+    nextProps.selectedDeck === this.props.selectedDeck
+
   render() {
-    const { decks, navigation } = this.props
-    const { title } = navigation.state.params
-    const { questions } = decks[title]
+    const { decks, selectedDeck, navigation } = this.props
+    const { questions } = decks[selectedDeck]
 
     return (
       <View style={styles.container}>
@@ -61,7 +56,7 @@ class Deck extends Component {
           color={white}
           onPress={this.handleDeleteButtonClick}
         />
-        <FormLabel containerStyle={{alignSelf: 'center'}}>{title}</FormLabel>
+        <FormLabel containerStyle={{alignSelf: 'center'}}>{selectedDeck}</FormLabel>
         <FormLabel containerStyle={{alignSelf: 'center'}}>{plural(questions.length, CARD)}</FormLabel>
         <Button
           raised
@@ -92,7 +87,7 @@ const styles = StyleSheet.create({
   }
 })
 
-const mapStateToProps = decks => decks
+const mapStateToProps = ({decks, selectedDeck}) => ({decks, selectedDeck})
 
 const mapDispatchToProps = dispatch => (
   { removeDeck: (data) => dispatch(removeDeck(data)) }

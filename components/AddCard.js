@@ -19,11 +19,6 @@ import {
 import { addCard } from '../actions'
 
 class AddCard extends Component {
-  static navigationOptions = ({ navigation }) => {
-    const { title } = navigation.state.params
-    return { title }
-  }
-
   state={
     isQuestionInvalid: false,
     isAnswerInvalid: false,
@@ -36,11 +31,10 @@ class AddCard extends Component {
 
   handleButtonClick = () => {
     const { isQuestionInvalid, isAnswerInvalid, question, answer } = this.state
-    const { navigation, addCard } = this.props
-    const { title } = navigation.state.params
+    const { navigation, addCard, selectedDeck } = this.props
 
     if(question.length && answer.length){
-      addCard(title, {question, answer})
+      addCard(selectedDeck, {question, answer})
       navigation.dispatch(NavigationActions.back())
     } else {
       this.setState({
@@ -85,8 +79,9 @@ const styles = StyleSheet.create({
   }
 })
 
+const mapStateToProps = selectedDeck => selectedDeck
 const mapDispatchToProps = dispatch => (
   { addCard: (key, question) => dispatch(addCard(key, question)) }
 )
 
-export default connect(decks => decks, mapDispatchToProps)(AddCard)
+export default connect(mapStateToProps, mapDispatchToProps)(AddCard)

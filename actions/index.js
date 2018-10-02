@@ -2,6 +2,7 @@ import * as API from '../utils/api'
 
 export const RECEIVE_DECKS_ENTRIES = 'RECEIVE_DECKS_ENTRIES'
 export const RECEIVE_LOGS_ENTRIES = 'RECEIVE_LOGS_ENTRIES'
+export const SELECT_DECK_ENTRY = 'SELECT_DECK_ENTRY'
 export const ADD_DECK_ENTRY = 'ADD_DECK_ENTRY'
 export const ADD_CARD_ENTRY = 'ADD_CARD_ENTRY'
 export const ADD_LOG_ENTRY = 'ADD_DECK_ENTRY'
@@ -35,6 +36,7 @@ export function addDeck(key) {
 
 export function removeDeck(key) {
   return (dispatch) => {
+    dispatch(selectDeck(''))
     dispatch(removeDeckEntry(key))
     return API.removeDeckTitle(key)
   }
@@ -72,6 +74,13 @@ export function receiveLogsEntries (entries) {
   return {
     type: RECEIVE_LOGS_ENTRIES,
     entries,
+  }
+}
+
+export function selectDeck (key) {
+  return {
+    type: SELECT_DECK_ENTRY,
+    key
   }
 }
 

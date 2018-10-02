@@ -2,6 +2,7 @@ import { combineReducers } from 'redux'
 import {
   RECEIVE_DECKS_ENTRIES,
   RECEIVE_LOGS_ENTRIES,
+  SELECT_DECK_ENTRY,
   ADD_DECK_ENTRY,
   ADD_CARD_ENTRY,
   ADD_LOG_ENTRY,
@@ -47,6 +48,15 @@ function decks (state = {}, action) {
   }
 }
 
+function selectedDeck (state = '', action) {
+  switch (action.type) {
+    case SELECT_DECK_ENTRY :
+      return action.key
+    default :
+      return state
+  }
+}
+
 function decksAreLoading (state = false, action) {
   switch (action.type) {
     case DECKS_ARE_LOADING :
@@ -82,4 +92,10 @@ function logsAreLoading (state = false, action) {
   }
 }
 
-export default combineReducers({ decks, log, decksAreLoading, logsAreLoading })
+export default combineReducers({
+  decks,
+  log,
+  selectedDeck,
+  decksAreLoading,
+  logsAreLoading
+})
