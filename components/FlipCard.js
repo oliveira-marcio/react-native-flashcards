@@ -1,5 +1,9 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { white, purple, black  } from '../utils/colors'
+import { Card, FormLabel, Icon } from 'react-native-elements'
 import {
+  Dimensions,
   StyleSheet,
   Text,
   View,
@@ -7,7 +11,7 @@ import {
   Animated
 } from 'react-native'
 
-export default class flipCard extends Component {
+class FlipCard extends Component {
   state = {
     flipValue: new Animated.Value(0),
     displayFront: true
@@ -38,24 +42,49 @@ export default class flipCard extends Component {
     })
   })
 
+
   render() {
     return (
       <View style={styles.container}>
+        <FormLabel>
+          1/9
+        </FormLabel>
         <View>
           <Animated.View style={[styles.flipCard, this.setAnimatedStyle(true)]}>
-            <Text style={styles.flipText}>
-              This text is flipping on the front.
-            </Text>
+            <Card containerStyle={{flex: 1, margin: 0}}>
+              <FormLabel>
+                This text is flipping on the front.
+              </FormLabel>
+            </Card>
           </Animated.View>
           <Animated.View style={[styles.flipCard, styles.flipCardBack, this.setAnimatedStyle(false)]}>
-            <Text style={styles.flipText}>
-              This text is flipping on the back.
-            </Text>
+            <Card containerStyle={{flex: 1, margin: 0}}>
+              <FormLabel>
+                This text is flipping on the back.
+              </FormLabel>
+            </Card>
           </Animated.View>
         </View>
-        <TouchableOpacity onPress={() => this.flipCard()}>
-          <Text>Flip!</Text>
-        </TouchableOpacity>
+        <View style={styles.controls}>
+          <Icon
+            raised
+            containerStyle={{margin: 30, backgroundColor: purple}}
+            name='exchange'
+            type='font-awesome'
+            underlayColor={purple}
+            color={white}
+            onPress={() => this.flipCard()}
+          />
+          <Icon
+            raised
+            containerStyle={{margin: 30, backgroundColor: purple}}
+            name='step-forward'
+            type='font-awesome'
+            underlayColor={purple}
+            color={white}
+            onPress={() => alert('próximo')}
+          />
+        </View>
       </View>
     )
   }
@@ -65,18 +94,23 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
+  },
+  controls:{
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: "space-around",
   },
   flipCard: {
-    width: 200,
-    height: 200,
-    alignItems: 'center',
+    width: Dimensions.get('window').width,
+    height: 300,
+    padding: 20,
+    flexDirection: 'row',
+    alignItems: 'stretch',
     justifyContent: 'center',
-    backgroundColor: 'blue',
     backfaceVisibility: 'hidden',
   },
   flipCardBack: {
-    backgroundColor: "red",
     position: "absolute",
     top: 0,
   },
@@ -87,3 +121,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   }
 })
+
+const mapStateToProps = ({decks, selectedDeck}) => ({decks, selectedDeck})
+
+export default connect(mapStateToProps)(FlipCard)

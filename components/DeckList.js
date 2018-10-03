@@ -20,7 +20,7 @@ class DeckList extends Component {
   handleItemClick = (key) => {
     const { navigation, selectDeck } = this.props
     selectDeck(key)
-    navigation.navigate('Deck')
+    navigation.navigate('Deck', {title: key})
   }
 
   renderItem = ({ item }) => {

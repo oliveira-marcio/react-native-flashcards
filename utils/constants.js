@@ -28,3 +28,6 @@ export const ADD_CARD_QUESTION_ERROR = 'É preciso digitar uma pergunta.'
 export const ADD_CARD_ANSWER = 'Resposta:'
 export const ADD_CARD_ANSWER_ERROR = 'É preciso digitar uma resposta.'
 export const ADD_CARD_BUTTON = 'Criar'
+
+export const QUIZ_TITLE = 'Quiz'
+export const QUIZ_DECK_EMPTY = 'É preciso incluir pelo menos 1 carta para começar o quiz.'

@@ -13,13 +13,15 @@ import {
   TAB_DECKS,
   TAB_LOG,
   ADD_DECK_TITLE,
-  ADD_CARD_TITLE
+  ADD_CARD_TITLE,
+  QUIZ_TITLE
 } from './utils/constants'
 import DeckList from './components/DeckList'
 import History from './components/History'
 import Deck from './components/Deck'
 import AddDeck from './components/AddDeck'
 import AddCard from './components/AddCard'
+import FlipCard from './components/FlipCard'
 
 const AppStatusBar = ({backgroundColor, ...props}) => (
   <View style={{ backgroundColor, height: Constants.statusBarHeight }}>
@@ -99,6 +101,16 @@ const MainNavigator = createStackNavigator(
       screen: AddCard,
       navigationOptions: {
         title: ADD_CARD_TITLE,
+        headerTintColor: white,
+        headerStyle: {
+          backgroundColor: purple,
+        }
+      }
+    },
+    FlipCard: {
+      screen: FlipCard,
+      navigationOptions: {
+        title: QUIZ_TITLE,
         headerTintColor: white,
         headerStyle: {
           backgroundColor: purple,

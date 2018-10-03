@@ -14,10 +14,17 @@ import {
   DIALOG_DELETE_CARD_MESSAGE1,
   DIALOG_DELETE_CARD_MESSAGE2,
   DIALOG_DELETE_CARD_OK,
-  DIALOG_DELETE_CARD_CANCEL
+  DIALOG_DELETE_CARD_CANCEL,
+  QUIZ_DECK_EMPTY
 } from '../utils/constants'
 
 class Deck extends Component {
+  static navigationOptions({ navigation }) {
+    return {
+      title: navigation.state.params.title
+    }
+  }
+
   handleAddButtonClick = () => {
     const { navigation } = this.props
     navigation.navigate('AddCard')
@@ -36,6 +43,15 @@ class Deck extends Component {
         }},
       ],
     )
+  }
+
+  handleQuizButton = () => {
+    const { decks, selectedDeck, navigation } = this.props
+    if(decks[selectedDeck].questions.length){
+      navigation.navigate('FlipCard')
+    } else {
+      alert(QUIZ_DECK_EMPTY)
+    }
   }
 
   shouldComponentUpdate = (nextProps, nextState) => this.props.selectedDeck &&
@@ -73,7 +89,7 @@ class Deck extends Component {
           backgroundColor={purple}
           containerViewStyle={{marginTop: 20, width: 200, alignSelf: 'center'}}
           title={DECK_QUIZ_BUTTON}
-          onPress={ () => alert('Quiz não implementado... :-(') }
+          onPress={this.handleQuizButton}
         />
       </View>
     )
