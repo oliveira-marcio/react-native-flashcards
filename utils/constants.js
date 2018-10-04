@@ -31,6 +31,7 @@ export const ADD_CARD_BUTTON = 'Criar'
 
 export const QUIZ_TITLE = 'Quiz'
 export const QUIZ_DECK_EMPTY = 'É necessário incluir pelo menos 1 carta para começar o quiz.'
-export const QUIZ_NOT_ANSWERED = 'É necessário responder a pergunta antes de prosseguir.'
+export const QUIZ_NOT_ANSWERED_TITLE = 'Atenção'
+export const QUIZ_NOT_ANSWERED_MESSAGE = 'É necessário responder a pergunta antes de prosseguir.'
 export const QUIZ_QUESTION_LABEL = 'Pergunta'
 export const QUIZ_ANSWER_LABEL = 'Resposta'
