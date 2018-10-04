@@ -1,7 +1,7 @@
 export const APP_NAME = 'FlashCards'
 
-export const STORAGE_DECKS_KEY = 'decks'
-export const STORAGE_LOG_KEY = 'log'
+export const NOTIFICATION_TITLE = 'Hora de estudar!'
+export const NOTIFICATION_BODY = '👋 Não se esqueça de fazer um quiz hoje!'
 
 export const TAB_DECKS = 'Baralhos'
 export const TAB_LOG = 'Registro'

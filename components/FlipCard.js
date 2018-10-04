@@ -25,6 +25,7 @@ import {
   DIALOG_RESTART_OK,
   DIALOG_RESTART_CANCEL
 } from '../utils/constants'
+import { clearLocalNotification, setLocalNotification } from '../utils/helpers'
 
 class FlipCard extends Component {
   state = {
@@ -120,6 +121,8 @@ class FlipCard extends Component {
     // Quiz finalizado
     if(currentCard >= questions.length){
       // TODO: Gravar LOG
+      clearLocalNotification().then(setLocalNotification)
+
       return (
         <FinishCard
           score = {score}

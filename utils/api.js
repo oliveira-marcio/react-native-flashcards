@@ -1,6 +1,7 @@
 import { AsyncStorage } from 'react-native'
-import { STORAGE_DECKS_KEY, STORAGE_LOG_KEY } from './constants'
 
+const STORAGE_DECKS_KEY = 'decks'
+const STORAGE_LOG_KEY = 'log'
 
 export function getDecks() {
   return AsyncStorage.getItem(STORAGE_DECKS_KEY)

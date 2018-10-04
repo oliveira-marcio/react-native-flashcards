@@ -16,6 +16,8 @@ import {
   ADD_CARD_TITLE,
   QUIZ_TITLE
 } from './utils/constants'
+import { setLocalNotification } from './utils/helpers'
+
 import DeckList from './components/DeckList'
 import History from './components/History'
 import Deck from './components/Deck'
@@ -126,6 +128,7 @@ const MainNavigator = createStackNavigator(
 
 
 export default class App extends Component {
+  componentDidMount = () => setLocalNotification()
   render() {
     return (
       <Provider store={createStore(reducer, applyMiddleware(thunk))}>
