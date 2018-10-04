@@ -66,7 +66,7 @@ function decksAreLoading (state = false, action) {
   }
 }
 
-function log (state = mockLog, action) {
+function logs (state = mockLog, action) {
   switch (action.type) {
     case RECEIVE_LOGS_ENTRIES :
       return {
@@ -94,7 +94,7 @@ function logsAreLoading (state = false, action) {
 
 export default combineReducers({
   decks,
-  log,
+  logs,
   selectedDeck,
   decksAreLoading,
   logsAreLoading

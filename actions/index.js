@@ -26,6 +26,15 @@ export function fetchDecks() {
   }
 }
 
+export function fetchLogs() {
+  return (dispatch, getState) => {
+    if(getState().logsAreLoading) return
+    dispatch(logsAreLoading(true))
+  //  dispatch(receiveLogsEntries(logs))
+    dispatch(logsAreLoading(false))
+  }
+}
+
 export function addDeck(key) {
   return (dispatch) => {
     const entry = { title: key, questions: [] }
