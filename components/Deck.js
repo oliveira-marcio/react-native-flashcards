@@ -15,7 +15,8 @@ import {
   DIALOG_DELETE_CARD_MESSAGE2,
   DIALOG_DELETE_CARD_OK,
   DIALOG_DELETE_CARD_CANCEL,
-  QUIZ_DECK_EMPTY
+  DIALOG_DECK_EMPTY_TITLE,
+  DIALOG_DECK_EMPTY_MESSAGE,
 } from '../utils/constants'
 
 class Deck extends Component {
@@ -50,7 +51,7 @@ class Deck extends Component {
     if(decks[selectedDeck].questions.length){
       navigation.navigate('FlipCard')
     } else {
-      alert(QUIZ_DECK_EMPTY)
+      Alert.alert(DIALOG_DECK_EMPTY_TITLE, DIALOG_DECK_EMPTY_MESSAGE)
     }
   }
 

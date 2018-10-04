@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { NavigationActions } from 'react-navigation'
 import { white, purple, black  } from '../utils/colors'
 import { Card, FormLabel, Icon, Button } from 'react-native-elements'
+import PropTypes from 'prop-types'
 import {
   Dimensions,
   StyleSheet,
@@ -12,10 +14,16 @@ import {
   Alert
 } from 'react-native'
 import {
-  QUIZ_NOT_ANSWERED_TITLE,
-  QUIZ_NOT_ANSWERED_MESSAGE,
   QUIZ_QUESTION_LABEL,
-  QUIZ_ANSWER_LABEL
+  QUIZ_ANSWER_LABEL,
+  QUIZ_FINISH_LABEL,
+  QUIZ_FINISH_RESULT,
+  DIALOG_NOT_ANSWERED_TITLE,
+  DIALOG_NOT_ANSWERED_MESSAGE,
+  DIALOG_RESTART_TITLE,
+  DIALOG_RESTART_MESSAGE,
+  DIALOG_RESTART_OK,
+  DIALOG_RESTART_CANCEL
 } from '../utils/constants'
 
 class FlipCard extends Component {
@@ -36,10 +44,6 @@ class FlipCard extends Component {
       // Caso esteja exibindo a frente da carta, faz uma dupla rotação antes de
       // avançar para a próxima carta. Caso contrário, apenas uma rotação
       const newScore = isCorrect ? score + 1 : score
-      if(currentCard >= decks[selectedDeck].questions.length - 1){
-        alert(`Score: ${newScore}`)
-        return
-      }
 
       if(displayFront){
         this.flipCard(() => {
@@ -51,7 +55,7 @@ class FlipCard extends Component {
         this.setState({ currentCard: currentCard + 1, isAnswered: false, score: newScore })
       }
     } else {
-      Alert.alert(QUIZ_NOT_ANSWERED_TITLE, QUIZ_NOT_ANSWERED_MESSAGE)
+      Alert.alert(DIALOG_NOT_ANSWERED_TITLE, DIALOG_NOT_ANSWERED_MESSAGE)
     }
   }
 
@@ -61,6 +65,26 @@ class FlipCard extends Component {
       isAnswered: true,
       isCorrect
     })
+  }
+
+  handleRestartClick = () => {
+    Alert.alert(
+      DIALOG_RESTART_TITLE,
+      DIALOG_RESTART_MESSAGE,
+      [
+        {text: DIALOG_RESTART_CANCEL, style: 'cancel'},
+        {text: DIALOG_RESTART_OK, onPress: () => {
+          this.setState({
+            currentCard: 0,
+            isAnswered: false,
+            isCorrect: false,
+            score: 0,
+            flipValue: new Animated.Value(0),
+            displayFront: true
+          })
+        }},
+      ],
+    )
   }
 
   flipCard = (onComplete = null, friction = 8, tension = 10) => {
@@ -89,9 +113,22 @@ class FlipCard extends Component {
   })
 
   render() {
-    const { decks, selectedDeck } = this.props
-    const { currentCard, isAnswered, isCorrect } = this.state
+    const { decks, selectedDeck, navigation } = this.props
+    const { currentCard, isAnswered, isCorrect, score } = this.state
     const questions = decks[selectedDeck].questions
+
+    // Quiz finalizado
+    if(currentCard >= questions.length){
+      // TODO: Gravar LOG
+      return (
+        <FinishCard
+          score = {score}
+          length = {questions.length}
+          onRestart = {this.handleRestartClick}
+          onFinish = {() => navigation.dispatch(NavigationActions.back())}
+        />
+      )
+    }
 
     return (
       <View style={styles.container}>
@@ -181,6 +218,51 @@ class FlipCard extends Component {
       </View>
     )
   }
+}
+
+const FinishCard = (props) => {
+  const {score, length, onRestart, onFinish} = props
+  const ratio = 100 * score / length
+
+  return (
+    <View style={styles.container}>
+      <Card containerStyle={{alignSelf: 'stretch', margin: 40, padding: 20}}>
+        <FormLabel>
+          {QUIZ_FINISH_LABEL}
+        </FormLabel>
+        <FormLabel>
+          {QUIZ_FINISH_RESULT}: {parseFloat(ratio).toFixed(2)}%
+        </FormLabel>
+      </Card>
+      <View style={styles.controls}>
+        <Icon
+          raised
+          containerStyle={{margin: 30, backgroundColor: purple}}
+          name='repeat'
+          type='font-awesome'
+          underlayColor={purple}
+          color={white}
+          onPress={onRestart}
+        />
+        <Icon
+          raised
+          containerStyle={{margin: 30, backgroundColor: purple}}
+          name='check'
+          type='font-awesome'
+          underlayColor={purple}
+          color={white}
+          onPress={onFinish}
+        />
+      </View>
+    </View>
+  )
+}
+
+FinishCard.propTypes = {
+  score: PropTypes.number.isRequired,
+  length: PropTypes.number.isRequired,
+  onRestart: PropTypes.func.isRequired,
+  onFinish: PropTypes.func.isRequired
 }
 
 const styles = StyleSheet.create({
