@@ -10,20 +10,47 @@ import {
   TouchableOpacity,
   Animated
 } from 'react-native'
+import {
+  QUIZ_NOT_ANSWERED,
+  QUIZ_QUESTION_LABEL,
+  QUIZ_ANSWER_LABEL
+} from '../utils/constants'
 
 class FlipCard extends Component {
   state = {
+    currentCard: 0,
+    answered: false,
+    score: 0,
     flipValue: new Animated.Value(0),
     displayFront: true
   }
 
-  flipCard = () => {
+  handleNextButton = () => {
+    const { currentCard, answered, displayFront } = this.state
+    if(answered){
+      // Caso esteja exibindo a frente da carta, faz uma dupla rotação antes de
+      // avançar para a próxima carta. Caso contrário, apenas uma rotação
+      if(displayFront){
+        this.flipCard(() => {
+          this.flipCard(null, 32, 40)
+          this.setState({ currentCard: currentCard + 1, answered: false })
+        }, 32, 40)
+      } else {
+        this.flipCard()
+        this.setState({ currentCard: currentCard + 1, answered: false })
+      }
+    } else {
+      alert(QUIZ_NOT_ANSWERED)
+    }
+  }
+
+  flipCard = (onComplete = null, friction = 8, tension = 10) => {
     const {displayFront, flipValue} = this.state
     Animated.spring(flipValue, {
       toValue: displayFront ? 180 : 0,
-      friction: 8,
-      tension: 10
-    }).start();
+      friction,
+      tension
+    }).start(onComplete);
     this.setState({displayFront: !displayFront})
   }
 
@@ -42,25 +69,29 @@ class FlipCard extends Component {
     })
   })
 
-
   render() {
+    const { decks, selectedDeck } = this.props
+    const { currentCard } = this.state
+    const questions = decks[selectedDeck].questions
+    console.log(currentCard)
+
     return (
       <View style={styles.container}>
         <FormLabel>
-          1/9
+          {currentCard + 1}/{questions.length}
         </FormLabel>
         <View>
           <Animated.View style={[styles.flipCard, this.setAnimatedStyle(true)]}>
             <Card containerStyle={{flex: 1, margin: 0}}>
               <FormLabel>
-                This text is flipping on the front.
+                {QUIZ_QUESTION_LABEL}: {questions[currentCard].question}
               </FormLabel>
             </Card>
           </Animated.View>
           <Animated.View style={[styles.flipCard, styles.flipCardBack, this.setAnimatedStyle(false)]}>
             <Card containerStyle={{flex: 1, margin: 0}}>
               <FormLabel>
-                This text is flipping on the back.
+                {QUIZ_ANSWER_LABEL}: {questions[currentCard].answer}
               </FormLabel>
             </Card>
           </Animated.View>
@@ -75,15 +106,27 @@ class FlipCard extends Component {
             color={white}
             onPress={() => this.flipCard()}
           />
-          <Icon
-            raised
-            containerStyle={{margin: 30, backgroundColor: purple}}
-            name='step-forward'
-            type='font-awesome'
-            underlayColor={purple}
-            color={white}
-            onPress={() => alert('próximo')}
-          />
+          {currentCard < questions.length - 1 ? (
+            <Icon
+              raised
+              containerStyle={{margin: 30, backgroundColor: purple}}
+              name='step-forward'
+              type='font-awesome'
+              underlayColor={purple}
+              color={white}
+              onPress={this.handleNextButton}
+            />
+          ) : (
+            <Icon
+              raised
+              containerStyle={{margin: 30, backgroundColor: purple}}
+              name='check'
+              type='font-awesome'
+              underlayColor={purple}
+              color={white}
+              onPress={() => alert('Fim')}
+            />
+          )}
         </View>
       </View>
     )
