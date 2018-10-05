@@ -12,6 +12,28 @@ export const plural = (quantity, text) => {
 
 export const formatPercent = (value) => `${parseFloat(100 * value).toFixed(2)}%`
 
+//TODO: Adicionar horas, minutos e segundos
+export function timeToString (time = Date.now()) {
+  const date = new Date(time)
+  const todayUTC = new Date(Date.UTC(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate(),
+    date.getHours(),
+    date.getMinutes(),
+    date.getSeconds()
+  ))
+  return todayUTC.toISOString()
+  //.split('T')[0]
+}
+
+export function formatDate(ISOString){
+  const b = ISOString.split(/\D+/);
+  //const date  = new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]))
+//  return `${date.toLocaleDateString('en-GB')} ${date.toLocaleTimeString()}`
+  return `${b[2]}/${b[1]}/${b[0]} ${b[3]}:${b[4]}:${b[5]}`
+}
+
 export function clearLocalNotification () {
   return AsyncStorage.removeItem(NOTIFICATION_KEY)
     .then(Notifications.cancelAllScheduledNotificationsAsync)

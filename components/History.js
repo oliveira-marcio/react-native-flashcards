@@ -4,8 +4,8 @@ import { connect } from 'react-redux'
 import sortBy from 'sort-by'
 import { white, gray, purple } from '../utils/colors'
 import { fetchLogs } from '../actions'
-import { Card, ButtonGroup } from 'react-native-elements'
-import { formatPercent } from '../utils/helpers'
+import { Card, ButtonGroup, Icon } from 'react-native-elements'
+import { formatDate, formatPercent } from '../utils/helpers'
 import {
   LOG_EMPTY,
   LOG_ORDER_BY_LABEL,
@@ -20,7 +20,7 @@ class History extends Component {
   renderItem = ({ item }) => {
     return (
       <Card containerStyle={{margin: 0}} >
-        <Text>{item.date}</Text>
+        <Text>{formatDate(item.date)}</Text>
         <Text>{item.deck}</Text>
         <Text>{formatPercent(item.rate)}</Text>
       </Card>

@@ -1,7 +1,7 @@
 import { AsyncStorage } from 'react-native'
 
-const STORAGE_DECKS_KEY = 'decks'
-const STORAGE_LOG_KEY = 'log'
+const STORAGE_DECKS_KEY = 'flashcads:decks'
+const STORAGE_LOGS_KEY = 'flashcads:logs'
 
 export function getDecks() {
   return AsyncStorage.getItem(STORAGE_DECKS_KEY)
@@ -33,16 +33,13 @@ export function addCardToDeck(key, entry){
     })
 }
 
-/*
-export function fetchCalendarResults () {
-  return AsyncStorage.getItem(CALENDAR_STORAGE_KEY)
-    .then(formatCalendarResults)
+export function getLogs() {
+  return AsyncStorage.getItem(STORAGE_LOGS_KEY)
+    .then(data => JSON.parse(data))
 }
 
-export function submitEntry ({ entry, key }) {
-  return AsyncStorage.mergeItem(CALENDAR_STORAGE_KEY, JSON.stringify({
+export function saveLog(key, entry) {
+  return AsyncStorage.mergeItem(STORAGE_LOGS_KEY, JSON.stringify({
     [key]: entry
   }))
 }
-
-*/

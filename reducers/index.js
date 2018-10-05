@@ -12,8 +12,6 @@ import {
   LOGS_ARE_LOADING
 } from '../actions'
 
-import { mockDecks, mockLog } from '../utils/mockData'
-
 function decks (state = {}, action) {
   switch (action.type) {
     case RECEIVE_DECKS_ENTRIES :
@@ -66,7 +64,7 @@ function decksAreLoading (state = false, action) {
   }
 }
 
-function logs (state = mockLog, action) {
+function logs (state = {}, action) {
   switch (action.type) {
     case RECEIVE_LOGS_ENTRIES :
       return {

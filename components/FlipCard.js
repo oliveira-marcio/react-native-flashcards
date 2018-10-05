@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { NavigationActions } from 'react-navigation'
 import { white, purple, black  } from '../utils/colors'
 import { Card, FormLabel, Icon, Button } from 'react-native-elements'
-import { formatPercent } from '../utils/helpers'
+import { formatPercent, timeToString } from '../utils/helpers'
 import PropTypes from 'prop-types'
 import {
   Dimensions,
@@ -28,6 +28,8 @@ import {
   OF
 } from '../utils/constants'
 import { clearLocalNotification, setLocalNotification } from '../utils/helpers'
+import { addLog } from '../actions'
+
 
 class FlipCard extends Component {
   state = {
@@ -41,12 +43,19 @@ class FlipCard extends Component {
 
   handleNextButton = () => {
     const { currentCard, isAnswered, isCorrect, score, displayFront } = this.state
-    const { decks, selectedDeck } = this.props
+    const { decks, selectedDeck, addLog } = this.props
+    const { questions } = decks[selectedDeck]
 
     if(isAnswered){
       // Caso esteja exibindo a frente da carta, faz uma dupla rotação antes de
       // avançar para a próxima carta. Caso contrário, apenas uma rotação
       const newScore = isCorrect ? score + 1 : score
+
+      if(currentCard >= questions.length - 1){
+        const rate = newScore / questions.length
+        addLog(timeToString(), selectedDeck, rate)
+        clearLocalNotification().then(setLocalNotification)
+      }
 
       if(displayFront){
         this.flipCard(() => {
@@ -118,17 +127,14 @@ class FlipCard extends Component {
   render() {
     const { decks, selectedDeck, navigation } = this.props
     const { currentCard, isAnswered, isCorrect, score } = this.state
-    const questions = decks[selectedDeck].questions
+    const { questions } = decks[selectedDeck]
 
     // Quiz finalizado
     if(currentCard >= questions.length){
-      // TODO: Gravar LOG
-      clearLocalNotification().then(setLocalNotification)
-
+      const rate = score / questions.length
       return (
         <FinishCard
-          score = {score}
-          length = {questions.length}
+          rate = {rate}
           onRestart = {this.handleRestartClick}
           onFinish = {() => navigation.dispatch(NavigationActions.back())}
         />
@@ -226,9 +232,7 @@ class FlipCard extends Component {
 }
 
 const FinishCard = (props) => {
-  const {score, length, onRestart, onFinish} = props
-  const ratio = formatPercent(score / length)
-
+  const {rate, onRestart, onFinish} = props
   return (
     <View style={styles.container}>
       <Card containerStyle={{alignSelf: 'stretch', margin: 40, padding: 20}}>
@@ -236,7 +240,7 @@ const FinishCard = (props) => {
           {QUIZ_FINISH_LABEL}
         </FormLabel>
         <FormLabel>
-          {QUIZ_FINISH_RESULT}: {ratio}
+          {QUIZ_FINISH_RESULT}: {formatPercent(rate)}
         </FormLabel>
       </Card>
       <View style={styles.controls}>
@@ -264,8 +268,7 @@ const FinishCard = (props) => {
 }
 
 FinishCard.propTypes = {
-  score: PropTypes.number.isRequired,
-  length: PropTypes.number.isRequired,
+  rate: PropTypes.number.isRequired,
   onRestart: PropTypes.func.isRequired,
   onFinish: PropTypes.func.isRequired
 }
@@ -303,5 +306,10 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = ({decks, selectedDeck}) => ({decks, selectedDeck})
+const mapDispatchToProps = dispatch => (
+  {
+    addLog: (date, deck, rate) => dispatch(addLog(date, deck, rate))
+  }
+)
 
-export default connect(mapStateToProps)(FlipCard)
+export default connect(mapStateToProps, mapDispatchToProps)(FlipCard)

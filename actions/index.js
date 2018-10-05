@@ -5,7 +5,7 @@ export const RECEIVE_LOGS_ENTRIES = 'RECEIVE_LOGS_ENTRIES'
 export const SELECT_DECK_ENTRY = 'SELECT_DECK_ENTRY'
 export const ADD_DECK_ENTRY = 'ADD_DECK_ENTRY'
 export const ADD_CARD_ENTRY = 'ADD_CARD_ENTRY'
-export const ADD_LOG_ENTRY = 'ADD_DECK_ENTRY'
+export const ADD_LOG_ENTRY = 'ADD_LOG_ENTRY'
 export const REMOVE_DECK_ENTRY = 'REMOVE_DECK_ENTRY'
 export const REMOVE_LOG_ENTRY = 'REMOVE_LOG_ENTRY'
 export const DECKS_ARE_LOADING = 'DECKS_ARE_LOADING'
@@ -30,8 +30,12 @@ export function fetchLogs() {
   return (dispatch, getState) => {
     if(getState().logsAreLoading) return
     dispatch(logsAreLoading(true))
-  //  dispatch(receiveLogsEntries(logs))
-    dispatch(logsAreLoading(false))
+    return API.getLogs()
+    .then(logs => {
+      dispatch(receiveLogsEntries(logs))
+      dispatch(logsAreLoading(false))
+    })
+    .catch(error => console.log(`Error fetching storage: ${error}.`))
   }
 }
 
@@ -40,6 +44,14 @@ export function addDeck(key) {
     const entry = { title: key, questions: [] }
     dispatch(addDeckEntry({ [key]: entry }))
     return API.saveDeckTitle(key, entry)
+  }
+}
+
+export function addLog(date, deck, rate) {
+  return (dispatch) => {
+    const entry = { date, deck, rate }
+    dispatch(addLogEntry({ [date]: entry }))
+    return API.saveLog(date, entry)
   }
 }
 
