@@ -6,7 +6,10 @@ export const NOTIFICATION_BODY = '👋 Não se esqueça de fazer um quiz hoje!'
 export const TAB_DECKS = 'Baralhos'
 export const TAB_LOG = 'Registro'
 
+export const DECK_EMPTY = 'Nenhum baralho foi criado.'
+
 export const CARD = 'carta'
+export const OF = 'de'
 
 export const ADD_DECK_TITLE = 'Novo Baralho'
 export const ADD_DECK_LABEL = 'Qual o título do novo baralho?'
@@ -44,3 +47,8 @@ export const DIALOG_RESTART_TITLE = 'Atenção'
 export const DIALOG_RESTART_MESSAGE = 'Gostaria de jogar o quiz novamente?'
 export const DIALOG_RESTART_OK = 'OK'
 export const DIALOG_RESTART_CANCEL = 'Cancelar'
+
+export const LOG_ORDER_BY_LABEL = 'Ordenar por'
+export const LOG_ORDER_BY_DATE = 'Data'
+export const LOG_ORDER_BY_DECK = 'Baralho'
+export const LOG_EMPTY = 'Ainda não há registro de estudos.'

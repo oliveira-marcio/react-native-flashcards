@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { NavigationActions } from 'react-navigation'
 import { white, purple, black  } from '../utils/colors'
 import { Card, FormLabel, Icon, Button } from 'react-native-elements'
+import { formatPercent } from '../utils/helpers'
 import PropTypes from 'prop-types'
 import {
   Dimensions,
@@ -23,7 +24,8 @@ import {
   DIALOG_RESTART_TITLE,
   DIALOG_RESTART_MESSAGE,
   DIALOG_RESTART_OK,
-  DIALOG_RESTART_CANCEL
+  DIALOG_RESTART_CANCEL,
+  OF
 } from '../utils/constants'
 import { clearLocalNotification, setLocalNotification } from '../utils/helpers'
 
@@ -136,7 +138,7 @@ class FlipCard extends Component {
     return (
       <View style={styles.container}>
         <FormLabel>
-          {currentCard + 1}/{questions.length}
+          {QUIZ_QUESTION_LABEL} {currentCard + 1} {OF} {questions.length}
         </FormLabel>
         <View>
           <Animated.View style={[styles.flipCard, this.setAnimatedStyle(true)]}>
@@ -225,7 +227,7 @@ class FlipCard extends Component {
 
 const FinishCard = (props) => {
   const {score, length, onRestart, onFinish} = props
-  const ratio = 100 * score / length
+  const ratio = formatPercent(score / length)
 
   return (
     <View style={styles.container}>
@@ -234,7 +236,7 @@ const FinishCard = (props) => {
           {QUIZ_FINISH_LABEL}
         </FormLabel>
         <FormLabel>
-          {QUIZ_FINISH_RESULT}: {parseFloat(ratio).toFixed(2)}%
+          {QUIZ_FINISH_RESULT}: {ratio}
         </FormLabel>
       </Card>
       <View style={styles.controls}>

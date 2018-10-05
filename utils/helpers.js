@@ -10,6 +10,8 @@ export const plural = (quantity, text) => {
   return `${quantity} ${text}${quantity !== 1 ? 's' : ''}`
 }
 
+export const formatPercent = (value) => `${parseFloat(100 * value).toFixed(2)}%`
+
 export function clearLocalNotification () {
   return AsyncStorage.removeItem(NOTIFICATION_KEY)
     .then(Notifications.cancelAllScheduledNotificationsAsync)

@@ -11,7 +11,7 @@ import {
 } from 'react-native'
 import { white, gray, purple } from '../utils/colors'
 import { Card, Icon } from 'react-native-elements'
-import { CARD } from '../utils/constants'
+import { CARD, DECK_EMPTY } from '../utils/constants'
 import { plural } from '../utils/helpers'
 import { fetchDecks, selectDeck } from '../actions'
 
@@ -38,7 +38,7 @@ class DeckList extends Component {
   renderEmptyComponent = () => {
     return (
       <Card containerStyle={styles.empty}>
-        <Text>Não há dados</Text>
+        <Text>{DECK_EMPTY}</Text>
       </Card>
     )
   }
