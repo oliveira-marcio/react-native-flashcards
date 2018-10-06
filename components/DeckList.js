@@ -9,11 +9,18 @@ import {
   Platform,
   Dimensions
 } from 'react-native'
-import { white, gray, purple } from '../utils/colors'
-import { Card, Icon } from 'react-native-elements'
+import {
+  white,
+  primaryColor,
+  lightPrimaryColor,
+  accentColor
+} from '../utils/colors'
+import { Card, Icon, FormLabel } from 'react-native-elements'
 import { CARD, DECK_EMPTY } from '../utils/constants'
 import { plural } from '../utils/helpers'
 import { fetchDecks, selectDeck } from '../actions'
+import EmptyCard from './EmptyCard'
+
 
 
 class DeckList extends Component {
@@ -34,12 +41,9 @@ class DeckList extends Component {
     )
   }
 
-// TODO: Melhorar estilo
   renderEmptyComponent = () => {
     return (
-      <Card containerStyle={styles.empty}>
-        <Text>{DECK_EMPTY}</Text>
-      </Card>
+      <EmptyCard text={DECK_EMPTY} />
     )
   }
 
@@ -69,7 +73,7 @@ class DeckList extends Component {
           raised
           name='file'
           type='font-awesome'
-          underlayColor={purple}
+          underlayColor={primaryColor}
           color={white}
           onPress={() => this.props.navigation.navigate('AddDeck')}
         />
@@ -81,18 +85,13 @@ class DeckList extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: gray,
-  },
-  empty: { // TODO: Melhorar layout
-    margin: 0,
-    alignItems: 'center',
-    justifyContent: 'center'
+    backgroundColor: lightPrimaryColor,
   },
   fab: {
     width: 60,
     height: 60,
     borderRadius: 30,
-    backgroundColor: purple,
+    backgroundColor: accentColor,
     position: 'absolute',
     bottom: 10,
     right: 10,

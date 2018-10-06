@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { StyleSheet, Text, View, FlatList } from 'react-native'
 import { connect } from 'react-redux'
 import sortBy from 'sort-by'
-import { white, gray, purple } from '../utils/colors'
+import { white, gray, primaryColor, lightPrimaryColor } from '../utils/colors'
 import { fetchLogs } from '../actions'
 import { Card, ButtonGroup, Icon } from 'react-native-elements'
 import { formatDate, formatPercent } from '../utils/helpers'
@@ -12,6 +12,7 @@ import {
   LOG_ORDER_BY_DATE,
   LOG_ORDER_BY_DECK
 } from '../utils/constants'
+import EmptyCard from './EmptyCard'
 
 
 class History extends Component {
@@ -30,9 +31,7 @@ class History extends Component {
 // TODO: Melhorar estilo
   renderEmptyComponent = () => {
     return (
-      <Card containerStyle={styles.empty}>
-        <Text>{LOG_EMPTY}</Text>
-      </Card>
+      <EmptyCard text={LOG_EMPTY} />
     )
   }
 
@@ -61,7 +60,7 @@ class History extends Component {
             onPress={ sortOrder => this.setState({sortOrder})}
             selectedIndex={sortOrder}
             buttons={[LOG_ORDER_BY_DATE, LOG_ORDER_BY_DECK]}
-            selectedButtonStyle={{backgroundColor: purple}}
+            selectedButtonStyle={{backgroundColor: primaryColor}}
             selectedTextStyle={{color: white}}
             containerStyle={{flex: 1, height: 40}}
           />
@@ -81,14 +80,9 @@ class History extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: white,
+    backgroundColor: lightPrimaryColor,
     alignItems: 'stretch',
     justifyContent: 'flex-start'
-  },
-  empty: { // TODO: Melhorar layout
-    margin: 0,
-    alignItems: 'center',
-    justifyContent: 'center'
   }
 })
 

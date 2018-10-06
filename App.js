@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, StatusBar, Platform } from 'react-native'
+import { View, StatusBar, Platform } from 'react-native'
 import { createMaterialTopTabNavigator, createStackNavigator } from 'react-navigation'
 import { fromLeft, fromTop } from 'react-navigation-transitions'
 import { createStore, applyMiddleware } from 'redux'
@@ -7,7 +7,7 @@ import thunk from 'redux-thunk';
 import reducer from './reducers'
 import { Provider } from 'react-redux'
 import { Constants } from 'expo'
-import { purple, white } from './utils/colors'
+import { primaryColor, white } from './utils/colors'
 import {
   APP_NAME,
   TAB_DECKS,
@@ -49,10 +49,10 @@ const Tabs = createMaterialTopTabNavigator({
     header: null
   },
   tabBarOptions: {
-    activeTintColor: Platform.OS === 'ios' ? purple : white,
+    activeTintColor: Platform.OS === 'ios' ? primaryColor : white,
     style: {
       height: 56,
-      backgroundColor: Platform.OS === 'ios' ? white : purple,
+      backgroundColor: Platform.OS === 'ios' ? white : primaryColor,
       shadowColor: 'rgba(0, 0, 0, 0.24)',
       shadowOffset: {
         width: 0,
@@ -72,7 +72,7 @@ const MainNavigator = createStackNavigator(
         title: APP_NAME,
         headerTintColor: white,
         headerStyle: {
-          backgroundColor: purple,
+          backgroundColor: primaryColor,
           elevation: 0
         },
         headerTitleStyle:{
@@ -85,7 +85,7 @@ const MainNavigator = createStackNavigator(
       navigationOptions: {
         headerTintColor: white,
         headerStyle: {
-          backgroundColor: purple,
+          backgroundColor: primaryColor,
         }
       }
     },
@@ -95,7 +95,7 @@ const MainNavigator = createStackNavigator(
         title: ADD_DECK_TITLE,
         headerTintColor: white,
         headerStyle: {
-          backgroundColor: purple,
+          backgroundColor: primaryColor,
         }
       }
     },
@@ -105,7 +105,7 @@ const MainNavigator = createStackNavigator(
         title: ADD_CARD_TITLE,
         headerTintColor: white,
         headerStyle: {
-          backgroundColor: purple,
+          backgroundColor: primaryColor,
         }
       }
     },
@@ -115,7 +115,7 @@ const MainNavigator = createStackNavigator(
         title: QUIZ_TITLE,
         headerTintColor: white,
         headerStyle: {
-          backgroundColor: purple,
+          backgroundColor: primaryColor,
         }
       }
     }
@@ -132,18 +132,11 @@ export default class App extends Component {
   render() {
     return (
       <Provider store={createStore(reducer, applyMiddleware(thunk))}>
-        <View style={styles.container}>
-          <AppStatusBar backgroundColor={purple} barStyle="light-content" />
+        <View style={{flex: 1}}>
+          <AppStatusBar backgroundColor={primaryColor} barStyle="light-content" />
           <MainNavigator />
         </View>
       </Provider>
     )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: white,
-  }
-})
