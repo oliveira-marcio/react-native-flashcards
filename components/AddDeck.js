@@ -43,6 +43,7 @@ class AddDeck extends Component {
         <Card containerStyle={styles.card}>
           <FormLabel>{ADD_DECK_LABEL}</FormLabel>
           <FormInput
+            maxLength={20}
             containerStyle={{width: (Dimensions.get('window').width - 80)}}
             onChangeText={this.setDeckName}
           />
