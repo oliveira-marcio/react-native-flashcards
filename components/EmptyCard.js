@@ -7,6 +7,7 @@ const EmptyCard = (props) => {
   return (
     <Card containerStyle={styles.container}>
       <Image
+        resizeMode='stretch'
         style={styles.image}
         source={require('../assets/cards.png')}
       />

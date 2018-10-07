@@ -4,18 +4,19 @@ import {
   View,
   FlatList,
   TouchableOpacity,
-  Text,
   StyleSheet,
   Platform,
+  Image,
   Dimensions
 } from 'react-native'
 import {
   white,
+  primaryText,
   primaryColor,
   lightPrimaryColor,
   accentColor
 } from '../utils/colors'
-import { Card, Icon, FormLabel } from 'react-native-elements'
+import { Card, Icon, FormLabel, Text } from 'react-native-elements'
 import { CARD, DECK_EMPTY } from '../utils/constants'
 import { plural } from '../utils/helpers'
 import { fetchDecks, selectDeck } from '../actions'
@@ -33,9 +34,18 @@ class DeckList extends Component {
   renderItem = ({ item }) => {
     return (
       <TouchableOpacity onPress={() => this.handleItemClick(item.title)} >
-        <Card containerStyle={{margin: 0}} >
-          <Text>{item.title}</Text>
-          <Text>{plural(item.questions.length, CARD)}</Text>
+        <Card containerStyle={styles.card} flexDirection='row'>
+          <Image
+            resizeMode='stretch'
+            style={styles.image}
+            source={require('../assets/cards.png')}
+          />
+          <View style={{flex: 1, alignItems: 'flex-start'}}>
+            <Text h4>{item.title}</Text>
+            <Text style={{fontSize: 16, color: primaryText}}>
+              {plural(item.questions.length, CARD)}
+            </Text>
+          </View>
         </Card>
       </TouchableOpacity>
     )
@@ -48,7 +58,6 @@ class DeckList extends Component {
   }
 
   componentDidMount(){
-    // Comente abaixo para simular lista vazia
     this.props.fetchDecks()
   }
 
@@ -63,7 +72,8 @@ class DeckList extends Component {
       <View style={styles.container}>
         <FlatList
           data={ Object.values(decks) }
-          contentContainerStyle={[{ flexGrow: 1 } , Object.values(decks).length ? null : { justifyContent: 'center'} ]}
+          contentContainerStyle={[{ flexGrow: 1 },
+            Object.values(decks).length ? null : { justifyContent: 'center'} ]}
           renderItem={ this.renderItem }
           ListEmptyComponent={ this.renderEmptyComponent }
           keyExtractor={(item, index) => item.title}
@@ -95,6 +105,18 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 10,
     right: 10,
+  },
+  card: {
+    margin: 8,
+    padding: 20,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  image: {
+    width: 75,
+    height: 68,
+    marginRight: 20
   }
 })
 
