@@ -50,12 +50,13 @@ class History extends Component {
 
     const sortLogs = Object.values(logs)
     .sort(sortOrder ?  sortBy('deck', '-date') : sortBy('-date', 'deck'))
-//    const sortLogs = []
 
     return (
       <View style={styles.container}>
         <View style={{flexDirection: 'row', alignItems: 'center', padding: 20}}>
-          <Text>{LOG_ORDER_BY_LABEL}: </Text>
+          <Text style={{fontWeight: 'bold', fontSize: 18}}>
+            {LOG_ORDER_BY_LABEL}:
+          </Text>
           <ButtonGroup
             onPress={ sortOrder => this.setState({sortOrder})}
             selectedIndex={sortOrder}

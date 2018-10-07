@@ -1,15 +1,20 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, Dimensions } from 'react-native'
 import { NavigationActions } from 'react-navigation'
 import { connect } from 'react-redux'
 import {
   FormLabel,
   FormInput,
   FormValidationMessage,
-  Button
+  Button,
+  Card
 } from 'react-native-elements'
-import { white, purple } from '../utils/colors'
-import { ADD_DECK_LABEL, ADD_DECK_ERROR, ADD_DECK_BUTTON } from '../utils/constants'
+import { white, primaryColor, lightPrimaryColor } from '../utils/colors'
+import {
+  ADD_DECK_LABEL,
+  ADD_DECK_ERROR,
+  ADD_DECK_BUTTON
+} from '../utils/constants'
 import { addDeck } from '../actions'
 
 class AddDeck extends Component {
@@ -35,19 +40,24 @@ class AddDeck extends Component {
     const { isInvalid } = this.state
     return (
       <View style={styles.container}>
-        <FormLabel>{ADD_DECK_LABEL}</FormLabel>
-        <FormInput onChangeText={this.setDeckName}/>
-        {isInvalid && (
-          <FormValidationMessage>{ADD_DECK_ERROR}</FormValidationMessage>
-        )}
-        <Button
-          raised
-          icon={{name: 'check'}}
-          backgroundColor={purple}
-          containerViewStyle={{marginTop: 50, width: 120}}
-          title={ADD_DECK_BUTTON}
-          onPress={ this.handleButtonClick }
-        />
+        <Card containerStyle={styles.card}>
+          <FormLabel>{ADD_DECK_LABEL}</FormLabel>
+          <FormInput
+            containerStyle={{width: (Dimensions.get('window').width - 80)}}
+            onChangeText={this.setDeckName}
+          />
+          <FormValidationMessage>
+            {isInvalid ? ADD_DECK_ERROR : ' '}
+          </FormValidationMessage>
+          <Button
+            raised
+            icon={{name: 'check'}}
+            backgroundColor={primaryColor}
+            containerViewStyle={styles.button}
+            title={ADD_DECK_BUTTON}
+            onPress={ this.handleButtonClick }
+          />
+        </Card>
       </View>
     )
   }
@@ -56,8 +66,23 @@ class AddDeck extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: 'stretch',
+    backgroundColor: lightPrimaryColor,
+  },
+  card: {
+    margin: 20,
+    paddingStart: 20,
+    paddingEnd: 20,
+    paddingTop: 40,
+    paddingBottom: 40,
+    borderRadius: 10,
     alignItems: 'center',
-    backgroundColor: white,
+    justifyContent: 'center'
+  },
+  button: {
+    alignSelf: 'flex-end',
+    marginTop: 50,
+    width: 120
   }
 })
 
