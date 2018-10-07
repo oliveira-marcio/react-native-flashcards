@@ -1,10 +1,15 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, FlatList } from 'react-native'
+import { StyleSheet, View, FlatList, Image } from 'react-native'
 import { connect } from 'react-redux'
 import sortBy from 'sort-by'
-import { white, gray, primaryColor, lightPrimaryColor } from '../utils/colors'
+import {
+  white,
+  primaryColor,
+  lightPrimaryColor,
+  primaryText
+} from '../utils/colors'
 import { fetchLogs } from '../actions'
-import { Card, ButtonGroup, Icon } from 'react-native-elements'
+import { Card, ButtonGroup, Icon, Text } from 'react-native-elements'
 import { formatDate, formatPercent } from '../utils/helpers'
 import {
   LOG_EMPTY,
@@ -20,15 +25,27 @@ class History extends Component {
 
   renderItem = ({ item }) => {
     return (
-      <Card containerStyle={{margin: 0}} >
-        <Text>{formatDate(item.date)}</Text>
-        <Text>{item.deck}</Text>
-        <Text>{formatPercent(item.rate)}</Text>
+      <Card containerStyle={styles.card} flexDirection='row'>
+        <Image
+          resizeMode='stretch'
+          style={styles.image}
+          source={require('../assets/calendario.png')}
+        />
+        <View style={styles.dataContainer}>
+          <Text style={styles.deck}>
+            {item.deck}
+          </Text>
+          <Text style={styles.date}>
+            {formatDate(item.date)}
+          </Text>
+        </View>
+        <Text style={styles.rate}>
+          {formatPercent(item.rate)}
+        </Text>
       </Card>
     )
   }
 
-// TODO: Melhorar estilo
   renderEmptyComponent = () => {
     return (
       <EmptyCard text={LOG_EMPTY} />
@@ -36,7 +53,6 @@ class History extends Component {
   }
 
   componentDidMount(){
-    // Comente abaixo para simular lista vazia
     this.props.fetchLogs()
   }
 
@@ -68,7 +84,8 @@ class History extends Component {
         </View>
         <FlatList
           data={sortLogs}
-          contentContainerStyle={[{ flexGrow: 1 } , sortLogs.length ? null : { justifyContent: 'center'} ]}
+          contentContainerStyle={[{ flexGrow: 1 },
+            sortLogs.length ? null : { justifyContent: 'center'} ]}
           renderItem={ this.renderItem }
           ListEmptyComponent={ this.renderEmptyComponent }
           keyExtractor={(item, index) => item.date}
@@ -81,10 +98,39 @@ class History extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: lightPrimaryColor,
-    alignItems: 'stretch',
-    justifyContent: 'flex-start'
-  }
+    backgroundColor: lightPrimaryColor
+  },
+  card: {
+    margin: 8,
+    padding: 20,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  image: {
+    width: 60,
+    height: 60,
+    marginRight: 20
+  },
+  dataContainer: {
+    flex: 1,
+    alignItems: 'flex-start',
+    justifyContent: 'space-between'
+  },
+  deck: {
+    fontSize: 20,
+    color: primaryText,
+    fontWeight: 'bold'
+  },
+  date: {
+    fontSize: 14,
+    color: primaryText
+  },
+  rate: {
+    fontSize: 32,
+    fontWeight: 'bold',
+     marginLeft: 20
+   }
 })
 
 const mapStateToProps = ({ logs, logsAreLoading }) => ({ logs, logsAreLoading })

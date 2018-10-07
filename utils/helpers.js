@@ -10,7 +10,7 @@ export const plural = (quantity, text) => {
   return `${quantity} ${text}${quantity !== 1 ? 's' : ''}`
 }
 
-export const formatPercent = (value) => `${parseFloat(100 * value).toFixed(2)}%`
+export const formatPercent = (value) => `${parseFloat(100 * value).toFixed(0)}%`
 
 //TODO: Adicionar horas, minutos e segundos
 export function timeToString (time = Date.now()) {

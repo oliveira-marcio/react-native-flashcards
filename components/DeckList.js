@@ -5,9 +5,7 @@ import {
   FlatList,
   TouchableOpacity,
   StyleSheet,
-  Platform,
-  Image,
-  Dimensions
+  Image
 } from 'react-native'
 import {
   white,
@@ -16,7 +14,7 @@ import {
   lightPrimaryColor,
   accentColor
 } from '../utils/colors'
-import { Card, Icon, FormLabel, Text } from 'react-native-elements'
+import { Card, Icon, Text } from 'react-native-elements'
 import { CARD, DECK_EMPTY } from '../utils/constants'
 import { plural } from '../utils/helpers'
 import { fetchDecks, selectDeck } from '../actions'
