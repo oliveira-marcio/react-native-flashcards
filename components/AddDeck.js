@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, Dimensions } from 'react-native'
+import { StyleSheet, View, Dimensions } from 'react-native'
 import { NavigationActions } from 'react-navigation'
 import { connect } from 'react-redux'
 import {
@@ -9,7 +9,7 @@ import {
   Button,
   Card
 } from 'react-native-elements'
-import { white, primaryColor, lightPrimaryColor } from '../utils/colors'
+import { primaryColor, lightPrimaryColor } from '../utils/colors'
 import {
   ADD_DECK_LABEL,
   ADD_DECK_ERROR,

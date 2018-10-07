@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View, Dimensions } from 'react-native'
 import { NavigationActions } from 'react-navigation'
 import { connect } from 'react-redux'
 import {
+  Card,
   FormLabel,
   FormInput,
   FormValidationMessage,
   Button
 } from 'react-native-elements'
-import { white, purple } from '../utils/colors'
+import { primaryColor, lightPrimaryColor } from '../utils/colors'
 import {
   ADD_CARD_QUESTION,
   ADD_CARD_QUESTION_ERROR,
@@ -48,24 +49,34 @@ class AddCard extends Component {
     const { isQuestionInvalid, isAnswerInvalid } = this.state
     return (
       <View style={styles.container}>
-        <FormLabel>{ADD_CARD_QUESTION}</FormLabel>
-        <FormInput onChangeText={this.setQuestion}/>
-        {isQuestionInvalid && (
-          <FormValidationMessage>{ADD_CARD_QUESTION_ERROR}</FormValidationMessage>
-        )}
-        <FormLabel>{ADD_CARD_ANSWER}</FormLabel>
-        <FormInput onChangeText={this.setAnswer}/>
-        {isAnswerInvalid && (
-          <FormValidationMessage>{ADD_CARD_ANSWER_ERROR}</FormValidationMessage>
-        )}
-        <Button
-          raised
-          icon={{name: 'check'}}
-          backgroundColor={purple}
-          containerViewStyle={{marginTop: 50, width: 200, alignSelf: 'center'}}
-          title={ADD_CARD_BUTTON}
-          onPress={ this.handleButtonClick }
-        />
+        <Card containerStyle={styles.card}>
+          <FormLabel>{ADD_CARD_QUESTION}</FormLabel>
+          <FormInput
+            maxLength={100}
+            containerStyle={{width: (Dimensions.get('window').width - 80)}}
+            onChangeText={this.setQuestion}
+          />
+          <FormValidationMessage>
+            {isQuestionInvalid ? ADD_CARD_QUESTION_ERROR : ' '}
+          </FormValidationMessage>
+          <FormLabel>{ADD_CARD_ANSWER}</FormLabel>
+          <FormInput
+            maxLength={100}
+            containerStyle={{width: (Dimensions.get('window').width - 80)}}
+            onChangeText={this.setAnswer}
+          />
+          <FormValidationMessage>
+            {isAnswerInvalid ? ADD_CARD_ANSWER_ERROR : ' '}
+          </FormValidationMessage>
+          <Button
+            raised
+            icon={{name: 'check'}}
+            backgroundColor={primaryColor}
+            containerViewStyle={styles.button}
+            title={ADD_CARD_BUTTON}
+            onPress={ this.handleButtonClick }
+          />
+        </Card>
       </View>
     )
   }
@@ -74,8 +85,23 @@ class AddCard extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'flex-start',
-    backgroundColor: white,
+    alignItems: 'stretch',
+    backgroundColor: lightPrimaryColor,
+  },
+  card: {
+    margin: 20,
+    paddingStart: 20,
+    paddingEnd: 20,
+    paddingTop: 40,
+    paddingBottom: 40,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  button: {
+    alignSelf: 'flex-end',
+    marginTop: 50,
+    width: 120
   }
 })
 
