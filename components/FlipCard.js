@@ -169,7 +169,7 @@ class FlipCard extends Component {
                 <FormLabel containerStyle={{marginBottom: 20}}>
                   {QUIZ_ANSWER_LABEL}:
                 </FormLabel>
-                <Text h4>{questions[currentCard].question}</Text>
+                <Text h4>{questions[currentCard].answer}</Text>
               </View>
               <View style={styles.controls}>
                 {isAnswered && isCorrect ? (
