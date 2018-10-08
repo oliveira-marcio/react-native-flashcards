@@ -44,7 +44,7 @@ class AddDeck extends Component {
           <FormLabel>{ADD_DECK_LABEL}</FormLabel>
           <FormInput
             maxLength={20}
-            containerStyle={{width: (Dimensions.get('window').width - 80)}}
+            containerStyle={{width: Dimensions.get('window').width - 80}}
             onChangeText={this.setDeckName}
           />
           <FormValidationMessage>
@@ -67,7 +67,6 @@ class AddDeck extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'stretch',
     backgroundColor: lightPrimaryColor,
   },
   card: {

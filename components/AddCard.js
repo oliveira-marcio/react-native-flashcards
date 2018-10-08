@@ -52,8 +52,8 @@ class AddCard extends Component {
         <Card containerStyle={styles.card}>
           <FormLabel>{ADD_CARD_QUESTION}</FormLabel>
           <FormInput
-            maxLength={100}
-            containerStyle={{width: (Dimensions.get('window').width - 80)}}
+            maxLength={120}
+            containerStyle={{width: Dimensions.get('window').width - 80}}
             onChangeText={this.setQuestion}
           />
           <FormValidationMessage>
@@ -61,8 +61,8 @@ class AddCard extends Component {
           </FormValidationMessage>
           <FormLabel>{ADD_CARD_ANSWER}</FormLabel>
           <FormInput
-            maxLength={100}
-            containerStyle={{width: (Dimensions.get('window').width - 80)}}
+            maxLength={120}
+            containerStyle={{width: Dimensions.get('window').width - 80}}
             onChangeText={this.setAnswer}
           />
           <FormValidationMessage>
@@ -85,7 +85,6 @@ class AddCard extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'stretch',
     backgroundColor: lightPrimaryColor,
   },
   card: {

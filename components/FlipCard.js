@@ -1,17 +1,17 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { NavigationActions } from 'react-navigation'
-import { white, purple, black  } from '../utils/colors'
-import { Card, FormLabel, Icon, Button } from 'react-native-elements'
+import { white, primaryColor, primaryText } from '../utils/colors'
+import { Card, FormLabel, Icon, Button, Text } from 'react-native-elements'
 import { formatPercent, timeToString } from '../utils/helpers'
 import PropTypes from 'prop-types'
 import {
   Dimensions,
   StyleSheet,
-  Text,
   View,
   TouchableOpacity,
   Animated,
+  Image,
   Alert
 } from 'react-native'
 import {
@@ -60,11 +60,19 @@ class FlipCard extends Component {
       if(displayFront){
         this.flipCard(() => {
           this.flipCard(null, 32, 40)
-          this.setState({ currentCard: currentCard + 1, isAnswered: false, score: newScore })
+          this.setState({
+            currentCard: currentCard + 1,
+            isAnswered: false,
+            score: newScore
+          })
         }, 32, 40)
       } else {
         this.flipCard()
-        this.setState({ currentCard: currentCard + 1, isAnswered: false, score: newScore })
+        this.setState({
+          currentCard: currentCard + 1,
+          isAnswered: false,
+          score: newScore
+        })
       }
     } else {
       Alert.alert(DIALOG_NOT_ANSWERED_TITLE, DIALOG_NOT_ANSWERED_MESSAGE)
@@ -146,26 +154,30 @@ class FlipCard extends Component {
         <FormLabel>
           {QUIZ_QUESTION_LABEL} {currentCard + 1} {OF} {questions.length}
         </FormLabel>
-        <View>
+        <View style={{flex: 1}}>
           <Animated.View style={[styles.flipCard, this.setAnimatedStyle(true)]}>
-            <Card containerStyle={{flex: 1, margin: 0}}>
-              <FormLabel>
-                {QUIZ_QUESTION_LABEL}: {questions[currentCard].question}
+            <Card containerStyle={styles.card} wrapperStyle={styles.cardInsideFront}>
+              <FormLabel containerStyle={{marginBottom: 20}}>
+                {QUIZ_QUESTION_LABEL}:
               </FormLabel>
+              <Text h4>{questions[currentCard].question}</Text>
             </Card>
           </Animated.View>
           <Animated.View style={[styles.flipCard, styles.flipCardBack, this.setAnimatedStyle(false)]}>
-            <Card containerStyle={{margin: 0, alignItems: 'center'}}>
-              <FormLabel containerStyle={{marginBottom: 50}}>
-                {QUIZ_ANSWER_LABEL}: {questions[currentCard].answer}
-              </FormLabel>
+            <Card containerStyle={styles.card} wrapperStyle={styles.cardInsideBack}>
+              <View style={{alignItems: 'center'}}>
+                <FormLabel containerStyle={{marginBottom: 20}}>
+                  {QUIZ_ANSWER_LABEL}:
+                </FormLabel>
+                <Text h4>{questions[currentCard].question}</Text>
+              </View>
               <View style={styles.controls}>
                 {isAnswered && isCorrect ? (
                   <Button
                     raised
                     icon={{name: 'check'}}
                     color={white}
-                    backgroundColor={purple}
+                    backgroundColor={primaryColor}
                     containerViewStyle={{margin: 10, width: 150}}
                     title={'Correto'}
                     onPress={ () => this.handleAnswerClick(true) }
@@ -173,8 +185,8 @@ class FlipCard extends Component {
                 ) : (
                   <Button
                     raised
-                    icon={{name: 'check', color: black}}
-                    color={black}
+                    icon={{name: 'check', color: primaryText}}
+                    color={primaryText}
                     backgroundColor={white}
                     containerViewStyle={{margin: 10, width: 150}}
                     title={'Correto'}
@@ -186,7 +198,7 @@ class FlipCard extends Component {
                     raised
                     icon={{name: 'close'}}
                     color={white}
-                    backgroundColor={purple}
+                    backgroundColor={primaryColor}
                     containerViewStyle={{margin: 10, width: 150}}
                     title={'Incorreto'}
                     onPress={ () => this.handleAnswerClick(false) }
@@ -194,8 +206,8 @@ class FlipCard extends Component {
                 ) : (
                   <Button
                     raised
-                    icon={{name: 'close', color: black}}
-                    color={black}
+                    icon={{name: 'close', color: primaryText}}
+                    color={primaryText}
                     backgroundColor={white}
                     containerViewStyle={{margin: 10, width: 150}}
                     title={'Incorreto'}
@@ -209,19 +221,19 @@ class FlipCard extends Component {
         <View style={styles.controls}>
           <Icon
             raised
-            containerStyle={{margin: 30, backgroundColor: purple}}
+            containerStyle={{margin: 30, backgroundColor: primaryColor}}
             name='exchange'
             type='font-awesome'
-            underlayColor={purple}
+            underlayColor={primaryColor}
             color={white}
             onPress={() => this.flipCard()}
           />
           <Icon
             raised
-            containerStyle={{margin: 30, backgroundColor: purple}}
+            containerStyle={{margin: 30, backgroundColor: primaryColor}}
             name={currentCard < questions.length - 1 ? 'step-forward' : 'check'}
             type='font-awesome'
-            underlayColor={purple}
+            underlayColor={primaryColor}
             color={white}
             onPress={this.handleNextButton}
           />
@@ -235,30 +247,41 @@ const FinishCard = (props) => {
   const {rate, onRestart, onFinish} = props
   return (
     <View style={styles.container}>
-      <Card containerStyle={{alignSelf: 'stretch', margin: 40, padding: 20}}>
-        <FormLabel>
+      <Card
+        containerStyle={styles.finishCard}
+        wrapperStyle={{flex: 1, alignItems: 'center'}}
+      >
+        <Text h4>
           {QUIZ_FINISH_LABEL}
+        </Text>
+        <FormLabel containerStyle={{padding: 20}}>
+          {QUIZ_FINISH_RESULT}:
         </FormLabel>
-        <FormLabel>
-          {QUIZ_FINISH_RESULT}: {formatPercent(rate)}
-        </FormLabel>
+        <Text h1 style={{flex: 1, fontSize: 80, color: primaryColor}}>
+          {formatPercent(rate)}
+        </Text>
+        <Image
+          resizeMode='stretch'
+          style={styles.image}
+          source={require('../assets/results.png')}
+        />
       </Card>
       <View style={styles.controls}>
         <Icon
           raised
-          containerStyle={{margin: 30, backgroundColor: purple}}
+          containerStyle={{margin: 30, backgroundColor: primaryColor}}
           name='repeat'
           type='font-awesome'
-          underlayColor={purple}
+          underlayColor={primaryColor}
           color={white}
           onPress={onRestart}
         />
         <Icon
           raised
-          containerStyle={{margin: 30, backgroundColor: purple}}
+          containerStyle={{margin: 30, backgroundColor: primaryColor}}
           name='check'
           type='font-awesome'
-          underlayColor={purple}
+          underlayColor={primaryColor}
           color={white}
           onPress={onFinish}
         />
@@ -286,22 +309,44 @@ const styles = StyleSheet.create({
   },
   flipCard: {
     width: Dimensions.get('window').width,
-    height: 300,
+    height: Dimensions.get('window').height - 240,
     padding: 20,
     flexDirection: 'row',
     alignItems: 'stretch',
-    justifyContent: 'center',
     backfaceVisibility: 'hidden',
   },
   flipCardBack: {
     position: "absolute",
     top: 0,
   },
-  flipText: {
-    width: 90,
-    fontSize: 20,
-    color: 'white',
-    fontWeight: 'bold',
+  card: {
+    flex: 1,
+    margin: 0,
+    padding: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  finishCard: {
+    flex: 1,
+    margin: 40,
+    padding: 20,
+    borderRadius: 10,
+    alignSelf: 'stretch'
+  },
+  cardInsideFront: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-start'
+  },
+  cardInsideBack: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'space-between'
+  },
+  image: {
+    width: 120,
+    height: 150
   }
 })
 

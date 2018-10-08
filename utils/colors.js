@@ -1,8 +1,4 @@
-export const purple = '#292477'
-export const gray = '#757575'
 export const white = '#fff'
-export const black = '#000'
-
 export const primaryColor = '#3F51B5'
 export const darkPrimaryColor = '#303F9F'
 export const lightPrimaryColor = '#C5CAE9'
