@@ -4,6 +4,30 @@ Neste projeto temos um aplicativo mobile construído em [React Native](https://f
 
 **OBS:** O aplicativo foi testado em dispositivos [Android](https://www.android.com/), mas acredito que deverá funcionar perfeitamente em dispositivos [IOS](https://www.apple.com/ios/), visto que não foi utilizado código nativo da platafoma Android.
 
+**Imagens:**
+
+<table align="center">
+  <tr>
+     <td>
+       <img src="screenshots/p3_1.png" width="400" title="Tela inicial com baralhos">
+       <p align="center">Tela inicial com baralhos</p>
+     </td>
+     <td>
+       <img src="screenshots/p3_2.png" width="400" title="Registro de estudos">
+       <p align="center">Registro de estudos</p>
+     </td>
+  </tr>
+  <tr>
+     <td>
+       <img src="screenshots/p3_3.png" width="400" title="Tela do baralho">
+       <p align="center">Tela do baralho</p>
+     </td>
+     <td>
+       <img src="screenshots/p3_4.gif" width="400" title="Quiz em execução">
+       <p align="center">Quiz em execução</p>
+     </td>
+  </tr>
+</table>
 
 ## Instalação:
 
