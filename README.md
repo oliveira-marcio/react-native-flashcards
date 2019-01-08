@@ -1,6 +1,6 @@
 # Udacity React Nanodegree - Projeto 3 (FlashCards)
 
-Neste projeto temos um aplicativo mobile construído em [React Native](https://facebook.github.io/react-native/) com o propósito de permitir que os usuários estudem uma coleção de flashcards. Com o app, os usuários poderão criar diferentes categorias de flashcards chamadas de "baralhos", adicionar flashcards a esses baralhos, e fazer os quizes nestes baralhos. Os usuários também poderão acompanhar a evolução dos seus estudos num registro de quizes realizados e serem lembrados diariamente de realizar ao menos um quiz.
+Neste projeto temos um aplicativo mobile construído em [React Native](https://facebook.github.io/react-native/) com o propósito de permitir que os usuários estudem assuntos diversos usando flashcards. Com o app, os usuários poderão criar diferentes categorias de flashcards chamadas de "baralhos", adicionar flashcards a esses baralhos, e fazer os quizes nestes baralhos. Os usuários também poderão acompanhar a evolução dos seus estudos num registro de quizes realizados e serem lembrados diariamente de realizar ao menos um quiz.
 
 **OBS:** O aplicativo foi testado em dispositivos [Android](https://www.android.com/), mas acredito que deverá funcionar perfeitamente em dispositivos [IOS](https://www.apple.com/ios/), visto que não foi utilizado código nativo da platafoma Android.
 
